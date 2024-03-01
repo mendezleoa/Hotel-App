@@ -1,0 +1,64 @@
+{
+  "hash": "36cdf266",
+  "configHash": "52c259d7",
+  "lockfileHash": "e3b0c442",
+  "browserHash": "f22d5f59",
+  "optimized": {
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "582a8826",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "69a844ce",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "4959ea2b",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "a9e8a3bb",
+      "needsInterop": false
+    },
+    "react-validation/build/button": {
+      "src": "../../node_modules/react-validation/build/button.js",
+      "file": "react-validation_build_button.js",
+      "fileHash": "d4526f95",
+      "needsInterop": true
+    },
+    "react-validation/build/form": {
+      "src": "../../node_modules/react-validation/build/form.js",
+      "file": "react-validation_build_form.js",
+      "fileHash": "586aa1b7",
+      "needsInterop": true
+    },
+    "react-validation/build/input": {
+      "src": "../../node_modules/react-validation/build/input.js",
+      "file": "react-validation_build_input.js",
+      "fileHash": "e40c874e",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-PXJLUKTU": {
+      "file": "chunk-PXJLUKTU.js"
+    },
+    "chunk-FQO5W7GE": {
+      "file": "chunk-FQO5W7GE.js"
+    },
+    "chunk-TBVIDBVX": {
+      "file": "chunk-TBVIDBVX.js"
+    },
+    "chunk-ZS7NZCD4": {
+      "file": "chunk-ZS7NZCD4.js"
+    }
+  }
+}
