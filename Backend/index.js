@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyparser = require('body-parser');
+const cors = require('cors');
 
 dotenv.config();
 
@@ -11,6 +12,10 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 app.use(express.json());
+
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
 
 /* Rutas con Router de Express */
 const verifyToken = require('./src/middlewares/validate-token');

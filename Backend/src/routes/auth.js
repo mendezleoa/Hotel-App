@@ -7,20 +7,20 @@ const jwt = require('jsonwebtoken')
 const Joi = require('@hapi/joi');
 
 const schemaRegister = Joi.object({
-    username: Joi.string().min(6).max(255).required(),
+    username: Joi.string().min(3).max(255).required(),
     email: Joi.string().min(6).max(255).required().email(),
     password: Joi.string().min(6).max(1024).required()
 })
 
 const schemaLogin = Joi.object({
-    email: Joi.string().min(6).max(255).required().email(),
+    username: Joi.string().min(3).max(255).required(),
     password: Joi.string().min(6).max(1024).required()
 })
 
 const bcrypt = require('bcrypt');
 
 /* Ruta register */
-router.post('/register', async (req, res) => {
+router.post('/signup', async (req, res) => {
 
     const { error } = schemaRegister.validate(req.body)
 
@@ -59,20 +59,20 @@ router.post('/register', async (req, res) => {
 })
 
 /* Ruta login */
-router.post('/login', async (req, res) => {
-
+router.post('/signin', async (req, res) => {
+    
     const { error } = schemaLogin.validate(req.body)
-
+    
     if (error) {
         return res.status(400).json({ error: error.details[0].message })
     }
-
-    const user = await User.findOne({ email: req.body.email });
+    
+    const user = await User.findOne({ username: req.body.username });
     if (!user) return res.status(400).json({ error: 'Email/Contraseña no válida' });
-
-    const validPass = await bcrypt.compare(req.body.password, user.password);
+    
+    const validPass = await bcrypt.compare(req.body.password, user.password);    
     if (!validPass) return res.status(400).json({ error: 'Email/Contraseña no válida' })
-
+    
     /* Firma del token */
     const token = jwt.sign({
         username: user.username,
@@ -81,7 +81,7 @@ router.post('/login', async (req, res) => {
     
     res.header('auth-token', token).json({
         error: null,
-        data: {token}
+        username: user.username
     });
 });
 

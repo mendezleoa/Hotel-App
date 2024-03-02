@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const parseJwt = (token) => {
   try {
@@ -10,6 +10,8 @@ const parseJwt = (token) => {
 };
 
 const AuthVerify = (props) => {
+  const navigate = useNavigate();
+
   props.history.listen(() => {
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -18,6 +20,7 @@ const AuthVerify = (props) => {
 
       if (decodedJwt.exp * 1000 < Date.now()) {
         props.logOut();
+        navigate("/login");
       }
     }
   });
@@ -25,4 +28,4 @@ const AuthVerify = (props) => {
   return <div></div>;
 };
 
-export default withRouter(AuthVerify);
+export default AuthVerify;

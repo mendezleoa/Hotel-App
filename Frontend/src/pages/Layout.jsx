@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
+import AuthVerify from "../common/AuthVerify";
+import EventBus from "../common/EventBus";
+import AuthService from "../services/auth.service";
 
 const Layout = (auths) => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -10,7 +13,22 @@ const Layout = (auths) => {
     setShowModeratorBoard(auths.showModeratorBoard);
     setShowAdminBoard(auths.showAdminBoard);
     setCurrentUser(auths.currentUser);
+
+    EventBus.on("logout", () => {
+      logOut();
+    });
+
+    return () => {
+      EventBus.remove("logout");
+    };
   });
+
+  const logOut = () => {
+    AuthService.logout();
+    setShowModeratorBoard(false);
+    setShowAdminBoard(false);
+    setCurrentUser(undefined);
+  };
 
   return (
     <>
@@ -74,6 +92,9 @@ const Layout = (auths) => {
                 Sign Up
               </Link>
             </li>
+            {/* <li>
+               <AuthVerify logOut={logOut}/>
+            </li>*/}
           </div>
         )}
       </nav>
