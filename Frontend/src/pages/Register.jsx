@@ -99,7 +99,6 @@ const Register = (props) => {
   };
   return (
     <div className="col-md-12">
-      <h1 className="text-3xl font-bold underline">Register</h1>
       <div className="card card-container">
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"

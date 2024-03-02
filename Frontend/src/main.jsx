@@ -9,7 +9,7 @@ import AuthService from "./services/auth.service";
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
 import Testimonios from "./pages/Testimonios";
-import Layout from "./pages/Layout";
+import Layout from "./components/Layout";
 import NoPage from "./pages/NoPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
