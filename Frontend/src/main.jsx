@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import AuthService from "./services/auth.service";
-import EventBus from "./common/EventBus";
 
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
@@ -12,11 +13,11 @@ import Layout from "./pages/Layout";
 import NoPage from "./pages/NoPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import "./output.css";
+import Profile from "./pages/Profile";
+import "./index.css";
 
 export default function App() {
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [role, setRole] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
@@ -24,25 +25,9 @@ export default function App() {
 
     if (user) {
       setCurrentUser(user);
-      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+      setRole(user.roles.includes("ROLE_ADMIN"));
     }
-
-    EventBus.on("logout", () => {
-      logOut();
-    });
-
-    return () => {
-      EventBus.remove("logout");
-    };
   }, []);
-
-  const logOut = () => {
-    AuthService.logout();
-    setShowModeratorBoard(false);
-    setShowAdminBoard(false);
-    setCurrentUser(undefined);
-  };
 
   return (
     <BrowserRouter>
@@ -50,12 +35,13 @@ export default function App() {
         <Route
           path="/"
           element={
-            <Layout auths={[showModeratorBoard, showAdminBoard, currentUser]} />
+            <Layout auths={[role, currentUser]} />
           }
         >
           <Route index element={<Home />} />
           <Route path="blogs" element={<Blogs />} />
           <Route path="testimonios" element={<Testimonios />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NoPage />} />
         </Route>
         <Route path="/register" element={<Register />} />
