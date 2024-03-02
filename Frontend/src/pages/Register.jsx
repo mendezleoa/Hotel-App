@@ -147,7 +147,7 @@ const Register = (props) => {
               </div>
 
               <div className="form-group pt-3">
-                <button className="btn btn-primary btn-block">Sign Up</button>
+                <button className="btn btn-primary btn-block">Registrarse</button>
               </div>
             </div>
           )}
@@ -167,7 +167,7 @@ const Register = (props) => {
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
         <Link to="/">
-          <p className="tw-text-xs">Volver a Home</p>
+          <p className="text-sm pt-2">Volver a Home</p>
         </Link>
       </div>
     </div>

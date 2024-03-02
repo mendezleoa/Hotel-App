@@ -32,14 +32,14 @@ const Layout = (auths) => {
 
   return (
     <>
-      <nav>
-        <li>
+      <nav className="flex">
+        <li className="p-2">
           <Link to="/">Home</Link>
         </li>
-        <li>
+        <li className="p-2">
           <Link to="/blogs">Blogs</Link>
         </li>
-        <li>
+        <li className="p-2">
           <Link to="/testimonios">Testimonios</Link>
         </li>
         {showModeratorBoard && (
@@ -80,14 +80,14 @@ const Layout = (auths) => {
             </li>
           </div>
         ) : (
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item">
+          <div className="navbar-nav ml-auto flex flex-row">
+            <li className="btn btn-outline-primary nav-item m-1">
               <Link to={"/login"} className="nav-link">
                 Login
               </Link>
             </li>
 
-            <li className="nav-item">
+            <li className="btn btn-outline-primary nav-item m-1">
               <Link to={"/register"} className="nav-link">
                 Sign Up
               </Link>
