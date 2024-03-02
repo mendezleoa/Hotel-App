@@ -1,10 +1,10 @@
-import Productos from "../components/Productos.jsx";
+import Reservaciones from "../components/Reservaciones.jsx";
 
 function Home() {
   return (
     <>
       <div className="bg-blue text-gray p-4">
-        <h1 className="text-4xl" >¡Hola, mundo!</h1>
+        <h1 className="text-4xl">¡Hola, mundo!</h1>
       </div>
       <section>
         <div className="container fs-3">
@@ -20,7 +20,9 @@ function Home() {
           <h1>Elemento 4</h1>
         </div>
       </section>
-      <Productos />
+      <section className="container">
+        <Reservaciones />
+      </section>
     </>
   );
 }

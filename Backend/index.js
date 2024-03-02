@@ -20,8 +20,10 @@ app.use(cors({
 /* Rutas con Router de Express */
 const verifyToken = require('./src/middlewares/validate-token');
 const authRoutes = require('./src/routes/auth.js');
+const reservasRoutes = require('./src/routes/reservas');
 
 app.use('/api/auth', authRoutes);
+app.use('/api/reservaciones', reservasRoutes);
 
 const URI = `mongodb+srv://${process.env.USER}:${process.env.PASS}@farmacia.dbkfd9e.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 mongoose.connect(URI)
