@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import { Link } from "react-router-dom";
 
 import AuthService from "../services/auth.service";
 
@@ -100,7 +101,7 @@ const Login = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group pt-3">
             <button className="btn btn-primary btn-block" disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
@@ -118,6 +119,9 @@ const Login = () => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
+        <Link to="/">
+          <p className="text-sm pt-2">Volver a Home</p>
+        </Link>
       </div>
     </div>
   );
