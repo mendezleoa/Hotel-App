@@ -67,39 +67,38 @@ const Layout = (auths) => {
                 </Link>
               </li>
             )}
+          </ul>
+          {currentUser ? (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  {currentUser.username}
+                </Link>
+              </li>
+              <li className="nav-item">
+                <a href="/login" className="nav-link" onClick={logOut}>
+                  LogOut
+                </a>
+              </li>
+            </div>
+          ) : (
+            <div className="navbar-nav d-grid d-md-block ml-auto gap-2 flex flex-row">
+              <li className="btn btn-outline-primary m-1">
+                <Link to={"/login"} className="nav-link px-0 py-1">
+                  Login
+                </Link>
+              </li>
 
-            </ul>
-            {currentUser ? (
-              <div className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link to={"/profile"} className="nav-link">
-                    {currentUser.username}
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <a href="/login" className="nav-link" onClick={logOut}>
-                    LogOut
-                  </a>
-                </li>
-              </div>
-            ) : (
-              <div className="navbar-nav d-grid d-md-block ml-auto gap-2 flex flex-row">
-                <li className="btn btn-outline-primary m-1">
-                  <Link to={"/login"} className="nav-link px-0 py-1">
-                    Login
-                  </Link>
-                </li>
-
-                <li className="btn btn-outline-primary m-1">
-                  <Link to={"/register"} className="nav-link px-0 py-1">
-                    Sign Up
-                  </Link>
-                </li>
-                {/* <li>
+              <li className="btn btn-outline-primary m-1">
+                <Link to={"/register"} className="nav-link px-0 py-1">
+                  Sign Up
+                </Link>
+              </li>
+              {/* <li>
                   <AuthVerify logOut={logOut}/>
                 </li>*/}
-              </div>
-            )}
+            </div>
+          )}
         </div>
       </nav>
       <main>

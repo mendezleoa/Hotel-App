@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -17,6 +17,7 @@ function Reservaciones() {
   const checkBtn = useRef();
 
   const [habitacion, setHabitacion] = useState("");
+  const [capacidad, setCapacidad] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -24,6 +25,11 @@ function Reservaciones() {
     const habitacion = e.target.value;
     setHabitacion(habitacion);
   };
+
+  const onChangeCapacidad = (e) => {
+    const capacidad = e.target.value;
+    setCapacidad(capacidad);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +40,8 @@ function Reservaciones() {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      ReservationService.newReservation(habitacion).then(
+      const user = localStorage.getItem('user');
+      ReservationService.newReservation(habitacion, capacidad, user).then(
         () => {
           window.location.reload();
         },
@@ -59,7 +66,7 @@ function Reservaciones() {
     <Form onSubmit={handleSubmit} ref={form}>
       <div className="form-group">
         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Campo:
+          Habitación para seleccionar:
         </label>
         <Input
           type="text"
@@ -69,7 +76,21 @@ function Reservaciones() {
           value={habitacion}
           onChange={onChangeHabitacion}
           validations={[required]}
-        ></Input>
+        />
+        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white sm:mt-3">
+          Cantidad de huespedes:
+        </label>
+        <Input
+          type="number"
+          placeholder="Capacidad"
+          className="form-control"
+          name="capacidad"
+          min="1"
+          max="10"
+          value={capacidad}
+          onChange={onChangeCapacidad}
+          validations={[required]}
+        />
       </div>
       {message && (
         <div className="form-group mt-1">
