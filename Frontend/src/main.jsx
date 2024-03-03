@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import AuthService from "./services/auth.service";
 
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
 import Testimonios from "./pages/Testimonios";
-import Layout from "./pages/Layout";
+import Layout from "./components/Layout";
 import NoPage from "./pages/NoPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import "./index.css";
+import "./main.css";
 
 export default function App() {
   const [role, setRole] = useState(false);
@@ -25,7 +25,7 @@ export default function App() {
 
     if (user) {
       setCurrentUser(user);
-      setRole(user.roles.includes("ROLE_ADMIN"));
+      // setRole(user.roles.includes("ROLE_ADMIN"));
     }
   }, []);
 

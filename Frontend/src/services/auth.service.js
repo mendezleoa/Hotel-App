@@ -19,7 +19,7 @@ const login = async (username, password) => {
     .then((response) => {
       if (response.data) {
         console.log(JSON.stringify(response.data))
-        localStorage.setItem("user", JSON.stringify(response.data.username));
+        localStorage.setItem("user", response.data.username);
       }
       return response.data;
     })
@@ -34,7 +34,7 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  return localStorage.getItem("user");
 };
 
 const AuthService = {
