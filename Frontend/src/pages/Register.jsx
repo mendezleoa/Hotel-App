@@ -24,7 +24,7 @@ const validEmail = (value) => {
 };
 
 const vusername = (value) => {
-  if (value.length < 3 || value.length > 20) {
+  if (value.length < 3 || value.length > 255) {
     return (
       <div className="invalid-feedback d-block">
         El nombre de usuario debe tener 3 y 20 caracteres.
@@ -34,7 +34,7 @@ const vusername = (value) => {
 };
 
 const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
+  if (value.length < 6 || value.length > 1024) {
     return (
       <div className="invalid-feedback d-block">
         La contraseña debe tener 6 y 40 caracteres.
