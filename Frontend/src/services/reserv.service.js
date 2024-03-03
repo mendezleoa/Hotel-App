@@ -2,9 +2,11 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:5000/api/reservaciones/'
 
-const newReservation = (habitacion) => {
+const newReservation = (habitacion, capacidad, user) => {
   return axios.post(API_URL + 'new', {
-    habitacion
+    habitacion,
+    capacidad,
+    user
   })
 }
 

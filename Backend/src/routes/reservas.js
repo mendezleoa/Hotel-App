@@ -1,11 +1,14 @@
 const router = require('express').Router()
 const Reserva = require('../models/Reserva')
+const User = require('../models/User')
 
 /* Esquemas de Validación */
 const Joi = require('@hapi/joi')
 
 const schemaReserva = Joi.object({
-  habitacion: Joi.string().min(3).max(255).required()
+  habitacion: Joi.string().min(3).max(255).required(),
+  capacidad: Joi.number().min(1).max(10).required(),
+  user: Joi.string().min(3).max(255).required()
 })
 
 /* Ruta nuevo */
@@ -21,11 +24,15 @@ router.post('/new', async (req, res) => {
     habitacion: req.body.habitacion
   })
   if (isHabitacionExist) {
-    return res.status(400).json({ error: 'El Email está registrado' })
+    return res.status(400).json({ error: 'La habitacion está reservada' })
   }
+
+  const idUser = await User.findOne({ username: req.body.user })
 
   const reservacion = new Reserva({
     habitacion: req.body.habitacion,
+    capacidad: req.body.capacidad,
+    user: idUser._id
   })
 
   try {

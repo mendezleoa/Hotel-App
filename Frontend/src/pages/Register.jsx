@@ -81,7 +81,6 @@ const Register = (props) => {
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
-          navigate("/");
         },
         (error) => {
           const resMessage =

@@ -25,7 +25,7 @@ export default function App() {
 
     if (user) {
       setCurrentUser(user);
-      setRole(user.roles.includes("ROLE_ADMIN"));
+      // setRole(user.roles.includes("ROLE_ADMIN"));
     }
   }, []);
 
