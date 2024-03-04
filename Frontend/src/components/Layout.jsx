@@ -10,9 +10,9 @@ const Layout = (auths) => {
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
+    setCurrentUser(AuthService.getCurrentUser());
     setShowModeratorBoard(auths.showModeratorBoard);
     setShowAdminBoard(auths.showAdminBoard);
-    setCurrentUser(auths.currentUser);
 
     EventBus.on("logout", () => {
       logOut();
@@ -35,13 +35,17 @@ const Layout = (auths) => {
       <nav className="m-2">
         <div className="mmx-auto max-w-screen flex flex-row flex-wrap rounded-lg shadow m-4 items-center justify-between dark:bg-gray-800 bg-gray-100 mx-auto p-2">
           <ul className="font-medium flex flex-wrap">
-            <li className="p-2 ml-3 md:ml-6 hover:text-blue-600">
+            <li className="p-2 ml-3 md:ml-6 flex place-items-center">
+              <img className="h-10 mr-3" src="Logo.png" alt="Logo" />
+              Hotel Bocconnó
+            </li>
+            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/">Home</Link>
             </li>
-            <li className="p-2 ml-3 hover:text-blue-600">
+            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/blogs">Blogs</Link>
             </li>
-            <li className="p-2 mx-3 hover:text-blue-600">
+            <li className="p-2 mx-3 flex place-items-center hover:text-blue-600">
               <Link to="/testimonios">Testimonios</Link>
             </li>
             {showModeratorBoard && (
@@ -59,30 +63,22 @@ const Layout = (auths) => {
                 </Link>
               </li>
             )}
-
-            {currentUser && (
-              <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
-                </Link>
-              </li>
-            )}
           </ul>
           {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
+            <div className="navbar-nav d-md-block ml-auto">
+              <li className="m-1 flex">
+                <Link to={"/profile"} className="nav-link px-0 py-1">
+                  {'Usuario: ' + currentUser}
                 </Link>
               </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={logOut}>
+              <li className="btn btn-outline-primary m-1">
+                <a href="/login" className="nav-link px-0 py-1" onClick={logOut}>
                   LogOut
                 </a>
               </li>
             </div>
           ) : (
-            <div className="navbar-nav d-grid d-md-block ml-auto gap-2 flex flex-row">
+            <div className="navbar-nav d-md-block ml-auto">
               <li className="btn btn-outline-primary m-1">
                 <Link to={"/login"} className="nav-link px-0 py-1">
                   Login

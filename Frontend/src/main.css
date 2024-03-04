@@ -1,6 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 li {
   list-style: none;
@@ -37,4 +37,14 @@ label {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
+}
+
+@media (max-width: 1023px) {
+  .bg-1 {
+    width: 100%;
+    background-size: auto;
+    background: url("hab-2.jpg");
+    color: #f3f3f3;
+    text-shadow: #141414 1px 1px;
+  }
 }
