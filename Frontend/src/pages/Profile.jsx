@@ -8,17 +8,11 @@ const Profile = () => {
   return (
     <div className="container">
       <header className="jumbotron">
-        <h3>
-          <strong>{currentUser.username}</strong> Profile
-        </h3>
+        <h3 className="font-bold">{currentUser.username} Profile</h3>
       </header>
-      <p>
-        <strong>Id:</strong> {currentUser.id}
-      </p>
-      <p>
-        <strong>Email:</strong> {currentUser.email}
-      </p>
-      <strong>Authorities:</strong>
+      <p className="font-bold">Id: {currentUser.id}</p>
+      <p className="font-bold">Email: {currentUser.email}</p>
+      Authorities:
       <ul>
         {currentUser.roles &&
           currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
