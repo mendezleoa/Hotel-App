@@ -17,11 +17,12 @@ function getCookie(cname) {
   return "";
 }
 
-const newReservation = (habitacion, capacidad, user) => {
+const newReservation = (habitacion, capacidad, user, fechaInit) => {
   return axios.post(API_URL + 'new', {
     habitacion,
     capacidad,
-    user
+    user,
+    fechaInit
   },{
     headers: {
       'auth-token': getCookie('jwt')

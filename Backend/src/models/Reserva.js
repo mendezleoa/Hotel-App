@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const reservaSchema = mongoose.Schema({
   habitacion: {
@@ -15,6 +15,10 @@ const reservaSchema = mongoose.Schema({
     max: 10
   },
   user: { type: Schema.Types.ObjectId, ref: 'User' },
+  fechaInit: {
+    type: Date,
+    required: true
+  },
   date: {
     type: Date,
     default: Date.now
