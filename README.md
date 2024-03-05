@@ -1,6 +1,16 @@
 # Proyecto Hotel-App
 
+Esta aplicación es un proyecto de React Vite hecho en colaboracion con otras herramientas para crear una interfaz que funcione para la visualizacion y manejo de la plataforma de hotel, en este caso llamada 'Hotel Bocconnó'. A continuación se detallan todos los elementos del procyecto.
 
+## Instalación
+
+1. Clona este repositorio.
+
+2. Ejecuta `npm i` dentro del directorio 'BackEnd' y 'FrontEnd' para instalar las dependencias.
+
+3. Ejecuta `npm run dev` dentro del directorio 'BackEnd' y 'FrontEnd' para ejecutar tanto la API como la aplicación.
+
+4. En tu navegador abre la ruta `http://localhost:5173/` para abrir la página.
 
 ## Hotel Bocconnó
 
@@ -38,3 +48,24 @@ Bienvenido al **Hotel Bocconnó**, ubicado en la hermosa ciudad de **Boconó, Es
 ## Autor
 
 - [@mendezleoa](https://www.github.com/mendezleoa) Programador Full-Stack
+
+## Uso
+
+Explica cómo utilizar el sistema o la aplicación. Proporciona ejemplos y guías claras.
+
+## API de Terceros
+
+Se utilizo la api de [Meteoblue](www.meteoblue.com), que contiene acceso a variables climaticas de la zona como temperatura o humedad, con limitaciones en cuanto a usos diarios de la api.
+
+- **Meteoblue**:
+  - **Método**: `GET`
+  - **Descripción**: Obtiene datos meteorológicos de la página.
+  - `fetch("URL_API")
+   .then((response) => response.json())
+   .then((weather) => {
+      console.log(weather);
+   });`
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
