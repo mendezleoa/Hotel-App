@@ -29,6 +29,9 @@ router.post('/new', async (req, res) => {
   }
 
   const idUser = await User.findOne({ username: req.body.user })
+  if (!idUser) {
+    return res.status(400).json({ error: 'Datos de usuario no validos' })
+  }
 
   const reservacion = new Reserva({
     habitacion: req.body.habitacion,
@@ -47,5 +50,18 @@ router.post('/new', async (req, res) => {
     res.status(400).json({ error })
   }
 })
+router.delete('/delete/:id', async (req, res) => {
+  console.log(req.params.id)
+  try {
+    const deletedReserva = await Reserva.deleteOne({ _id: req.params.id })
+    res.json({
+      error: null,
+      data: deletedReserva
+    })
+  } catch (error) {
+    res.status(400).json({ error })
+  }
+})
+
 
 module.exports = router

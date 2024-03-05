@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const User = require('../models/User')
+const Reserva = require('../models/Reserva')
+const verifyToken = require('../middlewares/validate-token')
 
 const jwt = require('jsonwebtoken')
 
@@ -79,13 +81,42 @@ router.post('/signin', async (req, res) => {
     process.env.TOKEN_SECRET
   )
 
-  res.cookie('jwt', token, { httpOnly: true });
+  res.cookie('jwt', token, { httpOnly: true })
 
   res.json({
     error: null,
     username: user.username,
     token: token
   })
+})
+
+router.get('/get', async (req, res) => {
+  const token = req.header('auth-token')
+  const decoded = jwt.decode(token, process.env.TOKEN_SECRET)
+  try {
+    const user = await User.findOne({ _id: decoded.id })
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' })
+    }
+
+    const reservaciones = await Reserva.find({
+      user: user._id
+    })
+
+    // Devuelve los datos del usuario en la respuesta
+    res.json({
+      error: null,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email
+      },
+      reservaciones
+    })
+  } catch (error) {
+    console.error('Error al obtener datos del usuario:', error)
+    res.status(500).json({ error: 'Error interno del servidor' })
+  }
 })
 
 module.exports = router
