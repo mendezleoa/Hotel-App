@@ -12,6 +12,39 @@ Esta aplicación es un proyecto de React Vite hecho en colaboracion con otras he
 
 4. En tu navegador abre la ruta `http://localhost:5173/` para abrir la página.
 
+## Uso
+
+El proyecto consta de varias partes, entre ellas están:
+
+### Register
+
+En el register podremos ingresar un usuario para registrarlo, y este se envia a la api propietaria para generarlo en la base de datos.
+
+### Login
+
+En el login podremos ingresar los datos del usuario para recibir un token de autentificación y conseguir ingresar a funciones como las reservas o el apartado de usuario.
+
+### Usuarios
+
+Luego de ingresar de manera exitosa en el login podremos navegar inmediatamente por medio del apartado de usuario por los datos del usuario y sus reservaciones, asi como ingresar o eliminar reservaciones conforme se requiera.
+
+### Reservaciones
+
+En la pantalla principal o tambien conocida como 'Home' podemos ingresar a las mismas opciones para ingresar reservaciones, pero sin ver las reservaciones creadas anteriormente. Adicionalmente se puede visualizar un mensaje que nos pide iniciar sesión o registrarnos en caso de querer ingresar datos de reservación.
+
+### API de Terceros
+
+Se utilizo la api de [Meteoblue](www.meteoblue.com), que contiene acceso a variables climaticas de la zona como temperatura o humedad, con limitaciones en cuanto a usos diarios de la api.
+
+- **Meteoblue**:
+  - **Método**: `GET`
+  - **Descripción**: Obtiene datos meteorológicos de la página.
+  - `fetch("URL_API")
+   .then((response) => response.json())
+   .then((weather) => {
+      console.log(weather);
+   });`
+
 ## Hotel Bocconnó
 
 Bienvenido al **Hotel Bocconnó**, ubicado en la hermosa ciudad de **Boconó, Estado Trujillo, Venezuela**. Nuestro hotel ofrece una experiencia única para los viajeros que buscan comodidad, tranquilidad y hospitalidad.
@@ -45,26 +78,17 @@ Bienvenido al **Hotel Bocconnó**, ubicado en la hermosa ciudad de **Boconó, Es
 
 5. **jsonwebtoken**: jsonwebtoken es una biblioteca para generar y verificar tokens JWT (JSON Web Tokens). Puedes utilizarlo para autenticación y autorización en tu aplicación.
 
+## Documentación
+
+- Video sobre el funcionamiento de la entrega 1 subido a Youtube [aquí](https://youtu.be/cdXbuu-CaZg).
+
+- Documento subido a Google Docs [aquí](https://docs.google.com/document/d/18yxmySBJ6--czVwXGvbc6zVarCeDIE3RWMBcIASoKHA/edit?usp=sharing).
+
+- Figma del proyecto [aquí](https://www.figma.com/file/4UHY4bMtvonXM2dUfA7iDd/Hotel-APP?type=design&node-id=0%3A1&mode=design&t=3e3lSyw5j7P79nYI-1).
+
 ## Autor
 
 - [@mendezleoa](https://www.github.com/mendezleoa) Programador Full-Stack
-
-## Uso
-
-Explica cómo utilizar el sistema o la aplicación. Proporciona ejemplos y guías claras.
-
-## API de Terceros
-
-Se utilizo la api de [Meteoblue](www.meteoblue.com), que contiene acceso a variables climaticas de la zona como temperatura o humedad, con limitaciones en cuanto a usos diarios de la api.
-
-- **Meteoblue**:
-  - **Método**: `GET`
-  - **Descripción**: Obtiene datos meteorológicos de la página.
-  - `fetch("URL_API")
-   .then((response) => response.json())
-   .then((weather) => {
-      console.log(weather);
-   });`
 
 ## Licencia
 
