@@ -1,14 +1,39 @@
 import { useState, useEffect } from "react";
 import Reservaciones from "../components/Reservaciones";
 import { Link } from "react-router-dom";
+
 import AuthService from "../services/auth.service";
 
 function Home() {
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [weather, setWeather] = useState(undefined);
+  const [loading, setLoading] = useState(false);
+  const [weatherMostrar, setWeatherMostrar] = useState("");
 
   useEffect(() => {
+    setLoading(true);
     setCurrentUser(AuthService.getCurrentUser());
-  });
+
+    const fetchWeather = async () => {
+      setLoading(true);
+      await fetch(
+        "https://my.meteoblue.com/packages/basic-1h_basic-day?apikey=eUBQTKxNc0uMt4vj&lat=37.9647&lon=-97.1475&asl=418&format=json"
+      )
+        .then((response) => response.json())
+        .then((weather) => {
+          console.log(weather);
+          if (!weather.error) {
+            setWeatherMostrar(
+              weather.data_1h.temperature + weather.units.temperature
+            );
+          }
+          setWeather(weather);
+          setLoading(false);
+        });
+    };
+
+    fetchWeather();
+  }, []);
 
   return (
     <>
@@ -111,9 +136,52 @@ function Home() {
           </div>
         </div>
       </section>
-      {currentUser && (
+      <section className="py-7">
+        <div className="container">
+          {loading || weather ? (
+            <div className="col-lg-6 mx-auto text-center">
+              <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
+            </div>
+          ) : (
+            <div>
+              <h2 className="text-gradient text-info mb-1 text-2xl">
+                Exelente clima y agradable ambiente.
+              </h2>
+              <h3 className="text-slate-900 dark:text-gray-300 mb-3 text-lg">
+                Estamos actualmente a {weatherMostrar}
+              </h3>
+            </div>
+          )}
+        </div>
+      </section>
+      {currentUser ? (
         <section className="container">
+          <div className="text-center">
+            <h3 className="text-slate-900 dark:text-gray-100 text-3xl font-bold">
+              Ingresa tu reservacion aquí:
+            </h3>
+          </div>
           <Reservaciones />
+        </section>
+      ) : (
+        <section className="container">
+          <div className="container">
+            <h3 className="text-slate-900 dark:text-gray-100 text-xl mb-4 font-bold md:text-center">
+              Inicia Sesión o Registrate para acceder a las reservaciones:
+            </h3>
+            <div className="grid grid-rows-2 md:grid-cols-2 items-center mx-auto">
+              <li className="btn btn-primary m-1 lg:max-w-lg">
+                <Link to={"/login"} className="nav-link px-0 py-1">
+                  Login
+                </Link>
+              </li>
+              <li className="btn btn-primary m-1 lg:max-w-lg">
+                <Link to={"/register"} className="nav-link px-0 py-1">
+                  Sign Up
+                </Link>
+              </li>
+            </div>
+          </div>
         </section>
       )}
     </>
