@@ -68,4 +68,4 @@ Se utilizo la api de [Meteoblue](www.meteoblue.com), que contiene acceso a varia
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
