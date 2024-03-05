@@ -90,9 +90,6 @@ const Layout = (auths) => {
                   Sign Up
                 </Link>
               </li>
-              {/* <li>
-                  <AuthVerify logOut={logOut}/>
-                </li>*/}
             </div>
           )}
         </div>

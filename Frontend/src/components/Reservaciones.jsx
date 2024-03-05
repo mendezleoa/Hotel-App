@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -132,7 +132,7 @@ function Reservaciones() {
       <div className="form-group pt-3">
         <button className="btn btn-primary btn-block" disabled={loading}>
           {loading && (
-            <span className="spinner-border spinner-border-sm"></span>
+            <span className="spinner-border spinner-border-sm" />
           )}
           <span>Enviar reservación</span>
         </button>
