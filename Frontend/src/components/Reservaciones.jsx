@@ -16,16 +16,11 @@ function Reservaciones() {
   const form = useRef();
   const checkBtn = useRef();
 
-  const [habitacion, setHabitacion] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState('orange');
   const [capacidad, setCapacidad] = useState(1);
   const [fechaInit, setFechaInit] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-
-  const onChangeHabitacion = (e) => {
-    const habitacion = e.target.value;
-    setHabitacion(habitacion);
-  };
 
   const onChangeCapacidad = (e) => {
     const capacidad = e.target.value;
@@ -47,8 +42,9 @@ function Reservaciones() {
 
     if (checkBtn.current.context._errors.length === 0) {
       const user = localStorage.getItem("user");
+      console.log(selectedRoom);
       ReservationService.newReservation(
-        habitacion,
+        selectedRoom,
         capacidad,
         user,
         fechaInit
@@ -76,18 +72,18 @@ function Reservaciones() {
   return (
     <Form onSubmit={handleSubmit} ref={form}>
       <div className="form-group">
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        <label>
           Habitación para seleccionar:
+          <select
+            name="selectedRoom"
+            onChange={e => setSelectedRoom(e.target.value)}
+            validations={[required]}
+          >
+            <option value="Habitacion1">Habitacion1</option>
+            <option value="Habitacion2">Habitacion2</option>
+            <option value="Habitacion3">Habitacion3</option>
+          </select>
         </label>
-        <Input
-          type="text"
-          placeholder="Habitacion"
-          className="form-control"
-          name="habitacion"
-          value={habitacion}
-          onChange={onChangeHabitacion}
-          validations={[required]}
-        />
         <div className="grid sm:grid-cols-2 grid-cols-1 sm:grid-flow-col-dense">
           <div className="sm:m-1 sm:col-span-2">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white sm:mt-3">
@@ -131,9 +127,7 @@ function Reservaciones() {
       </div>
       <div className="form-group pt-3">
         <button className="btn btn-primary btn-block" disabled={loading}>
-          {loading && (
-            <span className="spinner-border spinner-border-sm" />
-          )}
+          {loading && <span className="spinner-border spinner-border-sm" />}
           <span>Enviar reservación</span>
         </button>
       </div>

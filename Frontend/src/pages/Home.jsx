@@ -7,27 +7,29 @@ import AuthService from "../services/auth.service";
 function Home() {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [weather, setWeather] = useState(undefined);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [weatherMostrar, setWeatherMostrar] = useState("");
+
+  // const API_Weather = "https://my.meteoblue.com/packages/basic-1h_basic-day?apikey=eUBQTKxNc0uMt4vj&lat=37.9647&lon=-97.1475&asl=418&format=json"
+  const API_Weather = "https://my.meteoblue.com/";
 
   useEffect(() => {
     setLoading(true);
     setCurrentUser(AuthService.getCurrentUser());
 
     const fetchWeather = async () => {
-      setLoading(true);
-      await fetch(
-        "https://my.meteoblue.com/packages/basic-1h_basic-day?apikey=eUBQTKxNc0uMt4vj&lat=37.9647&lon=-97.1475&asl=418&format=json"
-      )
+      await fetch(API_Weather)
         .then((response) => response.json())
         .then((weather) => {
-          console.log(weather);
           if (!weather.error) {
             setWeatherMostrar(
-              weather.data_1h.temperature + weather.units.temperature
+              weather.data_1h.temperature[0] +
+                " " +
+                weather.units.temperature +
+                "°"
             );
+            setWeather(weather);
           }
-          setWeather(weather);
           setLoading(false);
         });
     };
@@ -138,19 +140,27 @@ function Home() {
       </section>
       <section className="py-7">
         <div className="container">
-          {loading || weather ? (
+          {loading ? (
             <div className="col-lg-6 mx-auto text-center">
-              <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
+              <h3 className="text-2xl mb-3">{`<Cargando>`}</h3>
             </div>
           ) : (
-            <div>
-              <h2 className="text-gradient text-info mb-1 text-2xl">
-                Exelente clima y agradable ambiente.
-              </h2>
-              <h3 className="text-slate-900 dark:text-gray-300 mb-3 text-lg">
-                Estamos actualmente a {weatherMostrar}
-              </h3>
-            </div>
+            <>
+              {!weather ? (
+                <div className="col-lg-6 mx-auto text-center">
+                  <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
+                </div>
+              ) : (
+                <div>
+                  <h2 className="text-gradient text-info mb-1 text-2xl">
+                    Exelente clima y agradable ambiente.
+                  </h2>
+                  <h3 className="text-slate-900 dark:text-gray-300 mb-3 text-lg">
+                    Estamos actualmente a {weatherMostrar}
+                  </h3>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
