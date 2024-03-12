@@ -21,7 +21,7 @@ const newReservation = (habitacion, capacidad, user, fechaInit) => {
   return axios.post(
     API_URL + 'new',
     {
-      habitacion,
+      room: habitacion,
       capacidad,
       user,
       fechaInit

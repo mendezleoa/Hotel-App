@@ -60,7 +60,7 @@ const Profile = () => {
                   {reservas.map((item) => (
                     <li
                       key={item._id}
-                      className="p-4 rounded-xl shadow-lg bg-teal-50 dark:bg-teal-900 my-2 text-sm grid grid-row-2"
+                      className="p-4 rounded-xl shadow-lg bg-green-200 dark:bg-teal-900 my-2 text-sm grid grid-row-2"
                     >
                       <span>
                         Habitación: {item.habitacion}

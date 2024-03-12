@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const Reserva = require('../models/Reserva')
+const Reserva = require('../models/Room')
 const User = require('../models/User')
 
 /* Esquemas de Validación */
