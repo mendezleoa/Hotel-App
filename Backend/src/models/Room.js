@@ -20,6 +20,12 @@ const roomSchema = mongoose.Schema({
     min: 3,
     max: 255
   },
+  capacidad: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5000
+  },
   tarifas: {
     type: Number,
     required: true,

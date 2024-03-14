@@ -32,7 +32,6 @@ const Profile = () => {
       setReservas(datos.reservaciones);
       setData(datos.user);
       setLoading(false);
-      window.location.reload();
     };
 
     deleteData();
@@ -47,11 +46,8 @@ const Profile = () => {
           </h3>
           <p className="font-bold text-xl">Id: {data.id}</p>
           <p className="font-bold text-xl">Email: {data.email}</p>
-          {/* Authorities:
-          <ul>
-            {data.roles &&
-              data.roles.map((role, index) => <li key={index}>{role}</li>)}
-            </ul>*/}
+          {/*
+          <p className="font-bold text-xl">Rol: {data.rol}</p> */}
           <div>
             {reservas.length > 0 ? (
               <div>
