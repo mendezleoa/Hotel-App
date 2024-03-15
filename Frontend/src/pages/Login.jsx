@@ -7,6 +7,26 @@ import { Link } from "react-router-dom";
 
 import AuthService from "../services/auth.service";
 
+const vusername = (value) => {
+  if (value.length < 3 || value.length > 255) {
+    return (
+      <div className="invalid-feedback d-block">
+        El nombre de usuario debe tener 3 y 20 caracteres.
+      </div>
+    );
+  }
+};
+
+const vpassword = (value) => {
+  if (value.length < 6 || value.length > 1024) {
+    return (
+      <div className="invalid-feedback d-block">
+        La contraseña debe tener 6 y 40 caracteres.
+      </div>
+    );
+  }
+};
+
 const required = (value) => {
   if (!value) {
     return (
@@ -93,7 +113,7 @@ const Login = () => {
               name="username"
               value={username}
               onChange={onChangeUsername}
-              validations={[required]}
+              validations={[required, vusername]}
             />
           </div>
 
@@ -105,7 +125,7 @@ const Login = () => {
               name="password"
               value={password}
               onChange={onChangePassword}
-              validations={[required]}
+              validations={[required, vpassword]}
             />
           </div>
 

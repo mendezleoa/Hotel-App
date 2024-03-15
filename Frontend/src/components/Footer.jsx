@@ -2,21 +2,17 @@ const Footer = () => {
   return (
     <footer className="rounded-lg shadow m-4 dark:bg-gray-800 bg-gray-100">
       <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-        <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2024{" "}
-          <a href="#" className="hover:underline">
-            Hotel Bocconno™
-          </a>
-          . Todos los derechos reservados.
+        <span className="text-sm text-gray-500 sm:text-center karma-regular dark:text-gray-400">
+          © 2024 Hotel Bocconno™ . Todos los derechos reservados.
         </span>
-        <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
           <li>
-            <a href="#" className="hover:underline me-4 md:me-6">
+            <a href="#" className="hover:underline me-4 md:me-6 karma-bold">
               Sobre nosotros
             </a>
           </li>
           <li>
-            <a href="#" className="hover:underline">
+            <a href="#" className="hover:underline karma-bold">
               Contacto: mendezmorenol@uvm.edu.ve
             </a>
           </li>
