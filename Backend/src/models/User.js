@@ -19,10 +19,14 @@ const userSchema = mongoose.Schema({
     required: true,
     minlength: 6
   },
-  reservas: { type: Schema.Types.ObjectId, ref: 'Reserva' },
+  reservas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reserva' }],
   date: {
     type: Date,
     default: Date.now
+  },
+  rol: {
+    type: String,
+    default: ''
   }
 })
 

@@ -10,14 +10,33 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [weatherMostrar, setWeatherMostrar] = useState("");
 
+<<<<<<< HEAD
   // const API_Weather = "https://my.meteoblue.com/packages/basic-1h_basic-day?apikey=eUBQTKxNc0uMt4vj&lat=37.9647&lon=-97.1475&asl=418&format=json"
   const API_Weather = "https://my.meteoblue.com/";
+=======
+  const urlAPI_Weather = `https://api.openweathermap.org/data/2.5/weather?q=Bocono,Ve&appid=eaed9e10df601aab920b0f2f1e13df89&units=metric`;
+>>>>>>> Production
 
   useEffect(() => {
     setLoading(true);
     setCurrentUser(AuthService.getCurrentUser());
 
     const fetchWeather = async () => {
+<<<<<<< HEAD
+=======
+      await fetch(urlAPI_Weather)
+        .then((response) => response.json())
+        .then((weather) => {
+          if (!weather.error) {
+            setWeatherMostrar(weather.main.temp + "°C");
+            setWeather(weather);
+          }
+          setLoading(false);
+        });
+    };
+
+    const fetchWeather_old = async () => {
+>>>>>>> Production
       await fetch(API_Weather)
         .then((response) => response.json())
         .then((weather) => {
@@ -146,11 +165,15 @@ function Home() {
             </div>
           ) : (
             <>
+<<<<<<< HEAD
               {!weather ? (
                 <div className="col-lg-6 mx-auto text-center">
                   <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
                 </div>
               ) : (
+=======
+              {weather ? (
+>>>>>>> Production
                 <div>
                   <h2 className="text-gradient text-info mb-1 text-2xl">
                     Exelente clima y agradable ambiente.
@@ -159,6 +182,13 @@ function Home() {
                     Estamos actualmente a {weatherMostrar}
                   </h3>
                 </div>
+<<<<<<< HEAD
+=======
+              ) : (
+                <div className="col-lg-6 mx-auto text-center">
+                  <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
+                </div>
+>>>>>>> Production
               )}
             </>
           )}

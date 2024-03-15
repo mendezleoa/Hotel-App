@@ -19,6 +19,7 @@ function Reservaciones() {
   const [selectedRoom, setSelectedRoom] = useState('orange');
   const [capacidad, setCapacidad] = useState(1);
   const [fechaInit, setFechaInit] = useState("");
+  const [fechaSalida, setFechaSalida] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -30,6 +31,11 @@ function Reservaciones() {
   const onChangeFechaInit = (e) => {
     const fechaInit = e.target.value;
     setFechaInit(fechaInit);
+  };
+
+  const onChangeFechaSalida = (e) => {
+    const fechaInit = e.target.value;
+    setFechaSalida(fechaInit);
   };
 
   const handleSubmit = (e) => {
@@ -47,7 +53,8 @@ function Reservaciones() {
         selectedRoom,
         capacidad,
         user,
-        fechaInit
+        fechaInit,
+        fechaSalida
       ).then(
         () => {
           window.location.reload();
@@ -110,9 +117,21 @@ function Reservaciones() {
               className="form-control form-icon-trailing far fa-calendar datepicker-toggle-icon"
               type="date"
               name="Fecha de reserva"
-              placeholder="Fecha de reserva"
               value={fechaInit}
               onChange={onChangeFechaInit}
+              validations={[required]}
+            />
+          </div>
+          <div className="sm:m-1">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white sm:mt-3">
+              Fecha de salida:
+            </label>
+            <Input
+              className="form-control form-icon-trailing far fa-calendar datepicker-toggle-icon"
+              type="date"
+              name="Fecha de salida"
+              value={fechaSalida}
+              onChange={onChangeFechaSalida}
               validations={[required]}
             />
           </div>

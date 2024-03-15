@@ -20,6 +20,7 @@ const schemaLogin = Joi.object({
 })
 
 const bcrypt = require('bcrypt')
+const { exit } = require('process')
 
 /* Ruta register */
 router.post('/signup', async (req, res) => {
@@ -58,43 +59,49 @@ router.post('/signup', async (req, res) => {
 
 /* Ruta login */
 router.post('/signin', async (req, res) => {
+
   const { error } = schemaLogin.validate(req.body)
 
   if (error) {
-    return res.status(400).json({ error: error.details[0].message })
+    //return res.status(400).json({ error: error.details[0].message })
+    return res.json({ error: error.details[0].message })
   }
 
   const user = await User.findOne({ username: req.body.username })
   if (!user)
-    return res.status(400).json({ error: 'Email/Contraseña no válida' })
+    //return res.status(400).json({error: 'Email/Contraseña no válida' })
+    return res.json({error: 'Email/Contraseña no válida' })
 
   const validPass = await bcrypt.compare(req.body.password, user.password)
   if (!validPass)
-    return res.status(400).json({ error: 'Email/Contraseña no válida' })
+    //return res.status(400).json({error: 'Email/Contraseña no válida' })
+    return res.json({error: 'Email/Contraseña no válida' })
 
   /* Firma del token */
   const token = jwt.sign(
     {
       username: user.username,
-      id: user._id
+      _id: user._id
     },
     process.env.TOKEN_SECRET
   )
 
   res.cookie('jwt', token, { httpOnly: true })
 
-  res.json({
+  return res.json({
     error: null,
     username: user.username,
     token: token
   })
+
+  
 })
 
 router.get('/get', async (req, res) => {
   const token = req.header('auth-token')
   const decoded = jwt.decode(token, process.env.TOKEN_SECRET)
   try {
-    const user = await User.findOne({ _id: decoded.id })
+    const user = await User.findOne({ _id: decoded._id })
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' })
     }
