@@ -32,7 +32,6 @@ const Profile = () => {
       setReservas(datos.reservaciones);
       setData(datos.user);
       setLoading(false);
-      window.location.reload();
     };
 
     deleteData();
@@ -40,18 +39,15 @@ const Profile = () => {
 
   return (
     <div className="container">
-      {data ? (
+      {!loading ? (
         <div className="mt-24">
           <h3 className="font-bold text-xl">
             Nombre de usuario: {data.username}
           </h3>
           <p className="font-bold text-xl">Id: {data.id}</p>
           <p className="font-bold text-xl">Email: {data.email}</p>
-          {/* Authorities:
-          <ul>
-            {data.roles &&
-              data.roles.map((role, index) => <li key={index}>{role}</li>)}
-            </ul>*/}
+          {/*
+          <p className="font-bold text-xl">Rol: {data.rol}</p> */}
           <div>
             {reservas.length > 0 ? (
               <div>
@@ -60,7 +56,7 @@ const Profile = () => {
                   {reservas.map((item) => (
                     <li
                       key={item._id}
-                      className="p-4 rounded-xl shadow-lg bg-teal-50 dark:bg-teal-900 my-2 text-sm grid grid-row-2"
+                      className="p-4 rounded-xl shadow-lg bg-green-200 dark:bg-teal-900 my-2 text-sm grid grid-row-2"
                     >
                       <span>
                         Habitación: {item.habitacion}
@@ -88,7 +84,7 @@ const Profile = () => {
           <section className="container mt-20 mb-28">
             <div className="text-center">
               <h3 className="text-slate-900 dark:text-gray-100 text-3xl font-bold">
-                Ingresa tu reservacion aquí:
+                Ingresa tu Reservación aquí:
               </h3>
             </div>
             <Reservaciones />

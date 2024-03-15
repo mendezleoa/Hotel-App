@@ -17,7 +17,7 @@ const Footer = () => {
           </li>
           <li>
             <a href="#" className="hover:underline">
-              Contacto
+              Contacto: mendezmorenol@uvm.edu.ve
             </a>
           </li>
         </ul>
