@@ -45,11 +45,20 @@ const Login = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.login(username, password).then(
-        () => {
-          navigate("/profile");
-        },
-        (error) => {
+      AuthService.login(username, password).then((response) => {
+        if (!response.error) { 
+          navigate("/profile")
+        }else{
+          const resMessage =
+            //response.error
+            //error.message ||
+            //error.toString();
+
+          setLoading(false);
+          setMessage(response.error);
+        }  
+        })
+        .catch((error) => {
           const resMessage =
             (error.response &&
               error.response.data &&
@@ -59,13 +68,13 @@ const Login = () => {
 
           setLoading(false);
           setMessage(resMessage);
-        }
-      );
-    } else {
+        })
+      
+    }/* else {
       setLoading(false);
+      */
     }
-  };
-
+ 
   return (
     <div className="col-md-12">
       <div className="card card-container">

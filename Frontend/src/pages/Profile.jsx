@@ -39,7 +39,7 @@ const Profile = () => {
 
   return (
     <div className="container">
-      {data ? (
+      {!loading ? (
         <div className="mt-24">
           <h3 className="font-bold text-xl">
             Nombre de usuario: {data.username}
@@ -84,7 +84,7 @@ const Profile = () => {
           <section className="container mt-20 mb-28">
             <div className="text-center">
               <h3 className="text-slate-900 dark:text-gray-100 text-3xl font-bold">
-                Ingresa tu reservacion aquí:
+                Ingresa tu Reservación aquí:
               </h3>
             </div>
             <Reservaciones />
