@@ -15,24 +15,21 @@ const schemaRoom = Joi.object({
   evaluacion: Joi.number().min(1).max(5).required()
 })
 
-router.get('/', async (req,res) => {
+router.get('/', async (req, res) => {
   try {
     const rooms = await Room.find()
-    return res.json({rooms})
+    return res.json({ rooms })
   } catch (error) {
     return res.status(400).json({ message: error })
   }
 })
 
-router.get('/old', async res => {
+router.get('/:id', async (req, res) => {
   try {
-    const rooms = await Room.find()
-    res.json({
-      error: null,
-      data: rooms
-    })
+    const room = await Room.findOne({_id: req.params.id})
+    return res.json({ room })
   } catch (error) {
-    res.status(400).json({ error })
+    return res.status(400).json({ message: error })
   }
 })
 
