@@ -7,6 +7,10 @@ const Joi = require('@hapi/joi').extend(require('@joi/date'))
 
 const schemaReserva = Joi.object({
   room: Joi.string().min(3).max(255).required(),
+<<<<<<< HEAD
+  capacidad: Joi.number().min(1).max(10).required(),
+=======
+>>>>>>> Production
   user: Joi.string().min(3).max(255).required(),
   fechaInit: Joi.date().format('YYYY-MM-DD').utc(),
   fechaSalida: Joi.date().format('YYYY-MM-DD').utc()
@@ -35,6 +39,10 @@ router.post('/new', async (req, res) => {
 
   const reservacion = new Reserva({
     room: req.body.room,
+<<<<<<< HEAD
+    capacidad: req.body.capacidad,
+=======
+>>>>>>> Production
     user: idUser._id,
     fechaInit: req.body.fechaInit,
     fechaSalida: req.body.fechaSalida
