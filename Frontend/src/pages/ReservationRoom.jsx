@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Rooms = () => {
+const ReservationRoom = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -12,7 +12,7 @@ const Rooms = () => {
     setLoading(true);
     setError(false);
     axios
-      .get("http://localhost:5000/api/rooms")
+      .get("http://localhost:5000/api/rooms/${id}")
       .then((res) => {
         setData(res.data.rooms);
       })
@@ -56,10 +56,10 @@ const Rooms = () => {
 <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500">Error al cargar los datos</div>
 </div>):""}
 {data?.map((item) => (
-  <div className="container px-5 py-4 mx-auto" key={item._id}>
+  <div className="container px-5 py-24 mx-auto" key={item._id}>
     <div className="lg:w-4/5 mx-auto flex flex-wrap">
-      <img alt="ecommerce" className="lg:w-1/3 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400" />
-      <div className="lg:w-2/3 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+      <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400" />
+      <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
         <h2 className="text-sm title-font text-gray-500 tracking-widest">Habitación:</h2>
         <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{item.name}</h1>
         <div className="flex mb-4">
@@ -101,7 +101,7 @@ const Rooms = () => {
         </div>
         <p className="leading-relaxed">{item.comodidades}</p>
         <p className="leading-relaxed">{item.descripcion}</p>
-        <div className="flex mt-6 items-center pb-2 border-b-2 border-gray-300 mb-3">
+        <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-300 mb-5">
           <div className="flex">
             <span className="mr-3">Tipo: </span>
             <h2 className="text-gray-900 text-2xl title-font font-medium mb-1">{item.type}</h2>
@@ -130,4 +130,4 @@ const Rooms = () => {
   );
 };
 
-export default Rooms;
+export default ReservationRoom;
