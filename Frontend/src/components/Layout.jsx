@@ -52,7 +52,7 @@ const Layout = (auths) => {
               <Link to="/testimonios">Testimonios</Link>
             </li>
             <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
-              <Link to="/rooms">Habitaciones</Link>
+              <Link to="/rooms">Reservaciones</Link>
             </li>
             {showModeratorBoard && (
               <li className="nav-item">
