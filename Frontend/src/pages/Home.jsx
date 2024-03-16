@@ -40,7 +40,7 @@ function Home() {
               <h1 className="my-4 text-5xl font-bold leading-tight">
                 El Mejor Hotel de Todo el Estado
               </h1>
-              <p className="text-sm md:text-lg mx-4">
+              <p className="text-lg md:text-xl mx-4">
                 No lo decimos nosotros, lo dicen nuestros huéspedes.{" "}
                 <span className="font-bold">Hotel Bocconnó</span> ha sido
                 galardonado como el mejor hotel del estado Trujillo. ¿Por qué?

@@ -1,8 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 import { Link } from "react-router-dom";
 
 import AuthService from "../services/auth.service";
@@ -36,9 +34,6 @@ const required = (value) => {
 };
 
 const Login = () => {
-  const form = useRef();
-  const checkBtn = useRef();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -62,39 +57,31 @@ const Login = () => {
     setMessage("");
     setLoading(true);
 
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      AuthService.login(username, password).then((response) => {
-        if (!response.error) { 
-          navigate("/profile")
-        }else{
-          const resMessage =
-            //response.error
-            //error.message ||
-            //error.toString();
-
-          setLoading(false);
-          setMessage(response.error);
-        }  
-        })
-        .catch((error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+    AuthService.login(username, password)
+      .then((response) => {
+        if (!response.error) {
+          navigate("/profile");
+        } else {
+          const resMessage = response.error;
+          error.message || error.toString();
 
           setLoading(false);
           setMessage(resMessage);
-        })
-      
-    }/* else {
-      setLoading(false);
-      */
-    }
- 
+        }
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setLoading(false);
+        setMessage(resMessage);
+      });
+  };
+
   return (
     <div className="col-md-12">
       <div className="card card-container">
@@ -104,28 +91,26 @@ const Login = () => {
           className="profile-img-card"
         />
 
-        <Form onSubmit={handleLogin} ref={form}>
+        <form onSubmit={handleLogin}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
-            <Input
+            <input
               type="text"
               className="form-control"
               name="username"
               value={username}
               onChange={onChangeUsername}
-              validations={[required, vusername]}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <Input
+            <input
               type="password"
               className="form-control"
               name="password"
               value={password}
               onChange={onChangePassword}
-              validations={[required, vpassword]}
             />
           </div>
 
@@ -145,8 +130,8 @@ const Login = () => {
               </div>
             </div>
           )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+          <input type="submit" style={{ display: "none" }} />
+        </form>
         <Link to="/">
           <p className="text-sm pt-2">Volver a Home</p>
         </Link>

@@ -12,7 +12,7 @@ const Footer = () => {
             </a>
           </li>
           <li>
-            <a href="#" className="hover:underline karma-bold">
+            <a href="mailto:mendezmorenol@uvm.edu.ve" className="hover:underline karma-bold">
               Contacto: mendezmorenol@uvm.edu.ve
             </a>
           </li>

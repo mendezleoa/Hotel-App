@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const User = require('../models/User')
 const Reserva = require('../models/Reserva')
-const verifyToken = require('../middlewares/validate-token')
 
 const jwt = require('jsonwebtoken')
 
@@ -20,7 +19,6 @@ const schemaLogin = Joi.object({
 })
 
 const bcrypt = require('bcrypt')
-const { exit } = require('process')
 
 /* Ruta register */
 router.post('/signup', async (req, res) => {
@@ -48,18 +46,28 @@ router.post('/signup', async (req, res) => {
 
   try {
     const savedUser = await user.save()
-    res.json({
+    
+    const token = jwt.sign(
+      {
+        username: user.username,
+        _id: user._id
+      },
+      process.env.TOKEN_SECRET
+    )
+
+    res.cookie('jwt', token, { httpOnly: true })
+    return res.json({
       error: null,
-      data: savedUser
+      username: savedUser.username,
+      token: token
     })
   } catch (error) {
-    res.status(400).json({ error })
+    return res.status(400).json({ error })
   }
 })
 
 /* Ruta login */
 router.post('/signin', async (req, res) => {
-
   const { error } = schemaLogin.validate(req.body)
 
   if (error) {
@@ -70,12 +78,12 @@ router.post('/signin', async (req, res) => {
   const user = await User.findOne({ username: req.body.username })
   if (!user)
     //return res.status(400).json({error: 'Email/Contraseña no válida' })
-    return res.json({error: 'Email/Contraseña no válida' })
+    return res.json({ error: 'Email/Contraseña no válida' })
 
   const validPass = await bcrypt.compare(req.body.password, user.password)
   if (!validPass)
     //return res.status(400).json({error: 'Email/Contraseña no válida' })
-    return res.json({error: 'Email/Contraseña no válida' })
+    return res.json({ error: 'Email/Contraseña no válida' })
 
   /* Firma del token */
   const token = jwt.sign(
@@ -93,8 +101,6 @@ router.post('/signin', async (req, res) => {
     username: user.username,
     token: token
   })
-
-  
 })
 
 router.get('/get', async (req, res) => {

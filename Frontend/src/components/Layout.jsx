@@ -51,6 +51,9 @@ const Layout = (auths) => {
             <li className="p-2 mx-3 flex place-items-center hover:text-blue-600">
               <Link to="/testimonios">Testimonios</Link>
             </li>
+            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
+              <Link to="/rooms">Habitaciones</Link>
+            </li>
             {showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/mod"} className="nav-link">

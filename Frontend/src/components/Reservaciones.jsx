@@ -1,7 +1,4 @@
 import React, { useState, useRef } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 import ReservationService from "../services/reserv.service";
 
 const required = (value) => {
@@ -77,7 +74,7 @@ function Reservaciones() {
   };
 
   return (
-    <Form onSubmit={handleSubmit} ref={form}>
+    <form onSubmit={handleSubmit} ref={form}>
       <div className="form-group">
         <label>
           Habitación para seleccionar:
@@ -96,7 +93,7 @@ function Reservaciones() {
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white sm:mt-3">
               Cantidad de huéspedes:
             </label>
-            <Input
+            <input
               type="number"
               placeholder="Capacidad"
               className="form-control"
@@ -113,7 +110,7 @@ function Reservaciones() {
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white sm:mt-3">
               Fecha de reserva:
             </label>
-            <Input
+            <input
               className="form-control form-icon-trailing far fa-calendar datepicker-toggle-icon"
               type="date"
               name="Fecha de reserva"
@@ -126,7 +123,7 @@ function Reservaciones() {
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white sm:mt-3">
               Fecha de salida:
             </label>
-            <Input
+            <input
               className="form-control form-icon-trailing far fa-calendar datepicker-toggle-icon"
               type="date"
               name="Fecha de salida"
@@ -150,8 +147,8 @@ function Reservaciones() {
           <span>Enviar reservación</span>
         </button>
       </div>
-      <CheckButton style={{ display: "none" }} ref={checkBtn} />
-    </Form>
+      <button className="hidden" ref={checkBtn} />
+    </form>
   );
 }
 
