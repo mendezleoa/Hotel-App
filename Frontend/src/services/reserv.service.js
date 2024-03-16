@@ -17,7 +17,13 @@ function getCookie (cname) {
   return ''
 }
 
-const newReservation = (habitacion, capacidad, user, fechaInit, fechaSalida) => {
+const newReservation = (
+  habitacion,
+  capacidad,
+  user,
+  fechaInit,
+  fechaSalida
+) => {
   return axios.post(
     API_URL + 'new',
     {
@@ -43,7 +49,12 @@ const deleteReservation = id => {
       }
     })
     .then(response => {
-      console.log(response)
+      if (!response.error) {
+        return response.data
+      } else {
+        console.error(response.error)
+        return ''
+      }
     })
     .catch(error => {
       console.error(error)

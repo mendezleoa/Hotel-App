@@ -8,6 +8,7 @@ const Layout = (auths) => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setCurrentUser(AuthService.getCurrentUser());
@@ -18,7 +19,9 @@ const Layout = (auths) => {
       logOut();
     });
 
+    
     return () => {
+      setLoading(false);
       EventBus.remove("logout");
     };
   });
@@ -34,9 +37,9 @@ const Layout = (auths) => {
     <>
       <nav className="m-2">
         <div className="mmx-auto max-w-screen flex flex-row flex-wrap rounded-lg shadow m-4 items-center justify-between dark:bg-gray-800 bg-gray-100 mx-auto p-2">
-          <ul className="font-medium flex flex-wrap">
+          <ul className="font-medium flex flex-wrap lg:text-lg text-sm">
             <li className="p-2 ml-3 md:ml-6 flex place-items-center">
-              <img className="h-10 mr-3" src="Logo.png" alt="Logo" />
+              <img className="lg:h-10 h-8 mr-3" src="Logo.png" alt="Logo" />
               Hotel Bocconnó
             </li>
             <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
@@ -47,6 +50,9 @@ const Layout = (auths) => {
             </li>
             <li className="p-2 mx-3 flex place-items-center hover:text-blue-600">
               <Link to="/testimonios">Testimonios</Link>
+            </li>
+            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
+              <Link to="/rooms">Habitaciones</Link>
             </li>
             {showModeratorBoard && (
               <li className="nav-item">
@@ -64,33 +70,43 @@ const Layout = (auths) => {
               </li>
             )}
           </ul>
-          {currentUser ? (
-            <div className="navbar-nav d-md-block ml-auto">
-              <li className="m-1 flex">
-                <Link to={"/profile"} className="nav-link px-0 py-1">
-                  {'Usuario: ' + currentUser}
-                </Link>
-              </li>
-              <li className="btn btn-outline-primary m-1">
-                <a href="/login" className="nav-link px-0 py-1" onClick={logOut}>
-                  LogOut
-                </a>
-              </li>
-            </div>
+          {loading ? (
+            <span className="text-xl text-slate-50">Loading...</span>
           ) : (
-            <div className="navbar-nav d-md-block ml-auto">
-              <li className="btn btn-outline-primary m-1">
-                <Link to={"/login"} className="nav-link px-0 py-1">
-                  Login
-                </Link>
-              </li>
+            <>
+              {currentUser ? (
+                <div className="navbar-nav d-md-block ml-auto">
+                  <li className="m-1 flex">
+                    <Link to={"/profile"} className="nav-link px-0 py-1">
+                      {"Usuario: " + currentUser}
+                    </Link>
+                  </li>
+                  <li className="btn btn-outline-primary m-1">
+                    <a
+                      href="/login"
+                      className="nav-link px-0 py-1"
+                      onClick={logOut}
+                    >
+                      LogOut
+                    </a>
+                  </li>
+                </div>
+              ) : (
+                <div className="navbar-nav d-md-block ml-auto">
+                  <li className="btn btn-outline-primary m-1">
+                    <Link to={"/login"} className="nav-link px-0 py-1">
+                      Login
+                    </Link>
+                  </li>
 
-              <li className="btn btn-outline-primary m-1">
-                <Link to={"/register"} className="nav-link px-0 py-1">
-                  Sign Up
-                </Link>
-              </li>
-            </div>
+                  <li className="btn btn-outline-primary m-1">
+                    <Link to={"/register"} className="nav-link px-0 py-1">
+                      Sign Up
+                    </Link>
+                  </li>
+                </div>
+              )}
+            </>
           )}
         </div>
       </nav>

@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 const roomSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   descripcion: {
     type: String,
     min: 3,
@@ -14,39 +18,27 @@ const roomSchema = mongoose.Schema({
     min: 3,
     max: 255
   },
-  imagenes: {
-    type: String,
-    required: true,
-    min: 3,
-    max: 255
-  },
-<<<<<<< HEAD
-=======
   capacidad: {
     type: Number,
     required: true,
-    min: 1,
-    max: 5000
   },
->>>>>>> Production
-  tarifas: {
+  tarifa: {
     type: Number,
     required: true,
-    min: 1,
-    max: 5000
   },
-  review: {
-    type: String,
-    required: true,
-    min: 3,
-    max: 255
-  },
+  reviews: [],
   evaluacion: {
     type: Number,
     required: true,
     min: 1,
     max: 10
-  }
-})
+  },
+  imagenes: [],  
+  currentBooking: [],
+}, {
+  timestamps: true,
+}
+)
 
-module.exports = mongoose.model('Reserva', roomSchema)
+module.exports = mongoose.model('Room', roomSchema)
+

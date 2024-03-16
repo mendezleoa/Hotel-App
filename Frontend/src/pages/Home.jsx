@@ -10,43 +10,18 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [weatherMostrar, setWeatherMostrar] = useState("");
 
-<<<<<<< HEAD
-  // const API_Weather = "https://my.meteoblue.com/packages/basic-1h_basic-day?apikey=eUBQTKxNc0uMt4vj&lat=37.9647&lon=-97.1475&asl=418&format=json"
-  const API_Weather = "https://my.meteoblue.com/";
-=======
   const urlAPI_Weather = `https://api.openweathermap.org/data/2.5/weather?q=Bocono,Ve&appid=eaed9e10df601aab920b0f2f1e13df89&units=metric`;
->>>>>>> Production
 
   useEffect(() => {
     setLoading(true);
     setCurrentUser(AuthService.getCurrentUser());
 
     const fetchWeather = async () => {
-<<<<<<< HEAD
-=======
       await fetch(urlAPI_Weather)
         .then((response) => response.json())
         .then((weather) => {
           if (!weather.error) {
             setWeatherMostrar(weather.main.temp + "°C");
-            setWeather(weather);
-          }
-          setLoading(false);
-        });
-    };
-
-    const fetchWeather_old = async () => {
->>>>>>> Production
-      await fetch(API_Weather)
-        .then((response) => response.json())
-        .then((weather) => {
-          if (!weather.error) {
-            setWeatherMostrar(
-              weather.data_1h.temperature[0] +
-                " " +
-                weather.units.temperature +
-                "°"
-            );
             setWeather(weather);
           }
           setLoading(false);
@@ -65,7 +40,7 @@ function Home() {
               <h1 className="my-4 text-5xl font-bold leading-tight">
                 El Mejor Hotel de Todo el Estado
               </h1>
-              <p className="text-sm md:text-lg mx-4">
+              <p className="text-lg md:text-xl mx-4">
                 No lo decimos nosotros, lo dicen nuestros huéspedes.{" "}
                 <span className="font-bold">Hotel Bocconnó</span> ha sido
                 galardonado como el mejor hotel del estado Trujillo. ¿Por qué?
@@ -157,43 +132,32 @@ function Home() {
           </div>
         </div>
       </section>
-      <section className="py-7">
-        <div className="container">
-          {loading ? (
-            <div className="col-lg-6 mx-auto text-center">
-              <h3 className="text-2xl mb-3">{`<Cargando>`}</h3>
-            </div>
+      {loading ? (
+        <section className="py-4 container">
+          <div className="col-lg-6 mx-auto text-center">
+            <h3 className="text-2xl mb-3">{`<Cargando>`}</h3>
+          </div>
+        </section>
+      ) : (
+        <>
+          {weather ? (
+            <section className="py-7 container">
+              <h2 className="text-gradient text-info mb-1 text-2xl">
+                Exelente clima y agradable ambiente.
+              </h2>
+              <h3 className="text-slate-900 dark:text-gray-300 mb-3 text-lg">
+                Estamos actualmente a {weatherMostrar}
+              </h3>
+            </section>
           ) : (
-            <>
-<<<<<<< HEAD
-              {!weather ? (
-                <div className="col-lg-6 mx-auto text-center">
-                  <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
-                </div>
-              ) : (
-=======
-              {weather ? (
->>>>>>> Production
-                <div>
-                  <h2 className="text-gradient text-info mb-1 text-2xl">
-                    Exelente clima y agradable ambiente.
-                  </h2>
-                  <h3 className="text-slate-900 dark:text-gray-300 mb-3 text-lg">
-                    Estamos actualmente a {weatherMostrar}
-                  </h3>
-                </div>
-<<<<<<< HEAD
-=======
-              ) : (
-                <div className="col-lg-6 mx-auto text-center">
-                  <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
-                </div>
->>>>>>> Production
-              )}
-            </>
+            <section className="py-4 container">
+              <div className="col-lg-6 mx-auto text-center">
+                <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
+              </div>
+            </section>
           )}
-        </div>
-      </section>
+        </>
+      )}
       {currentUser ? (
         <section className="container">
           <div className="text-center">

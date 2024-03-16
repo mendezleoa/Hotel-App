@@ -27,8 +27,8 @@ const Profile = () => {
 
     const deleteData = async () => {
       setLoading(true);
-      const datos = await AuthService.getUserData();
       await ReservationService.deleteReservation(id);
+      const datos = await AuthService.getUserData();
       setReservas(datos.reservaciones);
       setData(datos.user);
       setLoading(false);
