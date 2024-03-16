@@ -15,15 +15,21 @@ const schemaRoom = Joi.object({
   evaluacion: Joi.number().min(1).max(5).required()
 })
 
-router.get('/', async res => {
+router.get('/', async (req, res) => {
   try {
     const rooms = await Room.find()
-    res.json({
-      error: null,
-      data: rooms
-    })
+    return res.json({ rooms })
   } catch (error) {
-    res.status(400).json({ error })
+    return res.status(400).json({ message: error })
+  }
+})
+
+router.get('/:id', async (req, res) => {
+  try {
+    const room = await Room.findOne({_id: req.params.id})
+    return res.json({ room })
+  } catch (error) {
+    return res.status(400).json({ message: error })
   }
 })
 
@@ -46,10 +52,10 @@ router.post('/new', async (req, res) => {
   })
 
   try {
-    const savedReserva = await room.save()
+    const savedRoom = await room.save()
     res.json({
       error: null,
-      data: savedReserva
+      data: savedRoom
     })
   } catch (error) {
     res.status(400).json({ error })
@@ -75,6 +81,10 @@ router.put('/update', async (req, res) => {
       },
       { new: true }
     )
+    res.json({
+      error: null,
+      data: updateRoom
+    })
   } catch (error) {
     res.status(400).json({ error })
   }

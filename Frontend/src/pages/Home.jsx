@@ -28,23 +28,6 @@ function Home() {
         });
     };
 
-    const fetchWeather_old = async () => {
-      await fetch(API_Weather)
-        .then((response) => response.json())
-        .then((weather) => {
-          if (!weather.error) {
-            setWeatherMostrar(
-              weather.data_1h.temperature[0] +
-                " " +
-                weather.units.temperature +
-                "°"
-            );
-            setWeather(weather);
-          }
-          setLoading(false);
-        });
-    };
-
     fetchWeather();
   }, []);
 
@@ -57,7 +40,7 @@ function Home() {
               <h1 className="my-4 text-5xl font-bold leading-tight">
                 El Mejor Hotel de Todo el Estado
               </h1>
-              <p className="text-sm md:text-lg mx-4">
+              <p className="text-lg md:text-xl mx-4">
                 No lo decimos nosotros, lo dicen nuestros huéspedes.{" "}
                 <span className="font-bold">Hotel Bocconnó</span> ha sido
                 galardonado como el mejor hotel del estado Trujillo. ¿Por qué?
@@ -149,32 +132,32 @@ function Home() {
           </div>
         </div>
       </section>
-      <section className="py-7">
-        <div className="container">
-          {loading ? (
-            <div className="col-lg-6 mx-auto text-center">
-              <h3 className="text-2xl mb-3">{`<Cargando>`}</h3>
-            </div>
+      {loading ? (
+        <section className="py-4 container">
+          <div className="col-lg-6 mx-auto text-center">
+            <h3 className="text-2xl mb-3">{`<Cargando>`}</h3>
+          </div>
+        </section>
+      ) : (
+        <>
+          {weather ? (
+            <section className="py-7 container">
+              <h2 className="text-gradient text-info mb-1 text-2xl">
+                Exelente clima y agradable ambiente.
+              </h2>
+              <h3 className="text-slate-900 dark:text-gray-300 mb-3 text-lg">
+                Estamos actualmente a {weatherMostrar}
+              </h3>
+            </section>
           ) : (
-            <>
-              {weather ? (
-                <div>
-                  <h2 className="text-gradient text-info mb-1 text-2xl">
-                    Exelente clima y agradable ambiente.
-                  </h2>
-                  <h3 className="text-slate-900 dark:text-gray-300 mb-3 text-lg">
-                    Estamos actualmente a {weatherMostrar}
-                  </h3>
-                </div>
-              ) : (
-                <div className="col-lg-6 mx-auto text-center">
-                  <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
-                </div>
-              )}
-            </>
+            <section className="py-4 container">
+              <div className="col-lg-6 mx-auto text-center">
+                <h3 className="text-red-700 dark:text-red-500 text-2xl mb-3">{`<No han cargado los datos>`}</h3>
+              </div>
+            </section>
           )}
-        </div>
-      </section>
+        </>
+      )}
       {currentUser ? (
         <section className="container">
           <div className="text-center">

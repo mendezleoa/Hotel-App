@@ -1,9 +1,6 @@
 import React, { useState, useRef } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import AuthService from "../services/auth.service";
 
@@ -52,6 +49,9 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -77,12 +77,19 @@ const Register = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password).then(
-        (response) => {
-          setMessage(response.data.message);
-          setSuccessful(true);
-        },
-        (error) => {
+      AuthService.register(username, email, password)
+        .then((response) => {
+          if (!response.error) {
+            navigate("/profile");
+          } else {
+            const resMessage = response.error;
+            error.message || error.toString();
+
+            setLoading(false);
+            setMessage(resMessage);
+          }
+        })
+        .catch((error) => {
           const resMessage =
             (error.response &&
               error.response.data &&
@@ -90,10 +97,9 @@ const Register = (props) => {
             error.message ||
             error.toString();
 
+          setLoading(false);
           setMessage(resMessage);
-          setSuccessful(false);
-        }
-      );
+        });
     }
   };
   return (
@@ -105,12 +111,12 @@ const Register = (props) => {
           className="profile-img-card"
         />
 
-        <Form onSubmit={handleRegister} ref={form}>
+        <form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
-                <Input
+                <input
                   type="text"
                   className="form-control"
                   name="username"
@@ -122,7 +128,7 @@ const Register = (props) => {
 
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <Input
+                <input
                   type="email"
                   className="form-control"
                   name="email"
@@ -134,7 +140,7 @@ const Register = (props) => {
 
               <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <Input
+                <input
                   type="password"
                   className="form-control"
                   name="password"
@@ -145,7 +151,9 @@ const Register = (props) => {
               </div>
 
               <div className="form-group pt-3">
-                <button className="btn btn-primary btn-block">Registrarse</button>
+                <button className="btn btn-primary btn-block">
+                  Registrarse
+                </button>
               </div>
             </div>
           )}
@@ -162,8 +170,8 @@ const Register = (props) => {
               </div>
             </div>
           )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+          <button style={{ display: "none" }} ref={checkBtn} />
+        </form>
         <Link to="/">
           <p className="text-sm pt-2">Volver a Home</p>
         </Link>

@@ -17,12 +17,25 @@ function getCookie (cname) {
   return ''
 }
 
-const register = (username, email, password) => {
-  return axios.post(API_URL + 'signup', {
-    username,
-    email,
-    password
-  })
+const register = async (username, email, password) => {
+  return await axios
+    .post(API_URL + 'signup', {
+      username,
+      email,
+      password
+    })
+    .then(response => {
+      if (response.data) {
+        const d = new Date()
+        d.setTime(d.getTime() + 10 * 86400000)
+        let expires = 'expires=' + d.toUTCString()
+        document.cookie =
+          'jwt =' + response.data.token + ';' + expires + ';path=/'
+        localStorage.setItem('user', response.data.username)
+      }
+      return response.data
+    })
+    .catch(error => console.log(error))
 }
 
 const login = async (username, password) => {
@@ -42,7 +55,7 @@ const login = async (username, password) => {
       }
       return response.data
     })
-    .catch(error => console.log("error"))
+    .catch(error => console.log(error))
 }
 
 const logout = () => {
