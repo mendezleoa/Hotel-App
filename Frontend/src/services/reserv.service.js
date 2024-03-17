@@ -23,10 +23,16 @@ const getReservabyId = async id => {
   })
 }
 
+const getReservas = async () => {
+  return await axios.get(API_URL).then(response => {
+    return response.data
+  })
+}
+
 const newReservation = async reservaDetalle => {
   const room = reservaDetalle.room._id
   const { fechaInit, fechaSalida, totalimporte } = reservaDetalle
-
+  console.log("newReserService",reservaDetalle)
   return await axios.post(
     API_URL + 'new',
     {

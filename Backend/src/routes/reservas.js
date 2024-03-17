@@ -1,13 +1,15 @@
 const router = require('express').Router()
+const moment = require('moment'); 
+
 const Reserva = require('../models/Reserva')
 const User = require('../models/User')
+const Room = require('../models/Room')
 
 const jwt = require('jsonwebtoken')
 /* Esquemas de Validación */
 const Joi = require('@hapi/joi').extend(require('@joi/date'))
 
 const schemaReserva = Joi.object({
-  room: Joi.string().min(3).max(255).required(),
   fechaInit: Joi.date().format('DD-MM-YYYY').utc(),
   fechaSalida: Joi.date().format('DD-MM-YYYY').utc(),
   totalimporte: Joi.number().required()
@@ -26,26 +28,40 @@ const decodeToken = (req, res, next) => {
 
 /* Ruta nuevo */
 router.post('/new', decodeToken, async (req, res) => {
-  const { error } = schemaReserva.validate(req.body)
 
+  console.log("Entro",req.body.fechaSalida);
+  //const { error } = schemaReserva.validate(req.body)
+
+  error = null
   if (error) {
     return res.status(400).json({ error: error.details[0].message })
   }
 
-  const idUser = await User.findOne({ _id: req.user })
-  if (!idUser) {
-    return res.status(400).json({ error: 'Datos de usuario no validos' })
+  const fechaInitISO = moment(req.body.fechaInit,"DD-MM-YYYY")
+  const fechaSalidaISO = moment(req.body.fechaSalida,"DD-MM-YYYY")
+    
+  const idUser = await User.findById(req.user)
+  const idRoom = await Room.findById(req.body.room)
+  /*
+  
+  if (!idUser || !idRoom) {
+    return res
+      .status(400)
+      .json({ error: 'Datos de usuario o habitación no válidos' })
   }
-
+*/
   const reservacion = new Reserva({
-    room: req.body.room,
-    user: req.user,
-    fechaInit: req.body.fechaInit,
-    fechaSalida: req.body.fechaSalida,
+    room: idRoom,
+    user: idUser,
+    fechaInit: fechaInitISO,
+    fechaSalida: fechaSalidaISO,
     totalimporte: req.body.totalimporte
   })
+  console.log("Salio");
+  console.log("reservacionRutas",reservacion)
   try {
     const savedReserva = await reservacion.save()
+    console.log("save",savedReserva)
     idUser.reservas.push(savedReserva)
     await idUser.save()
 
@@ -54,6 +70,7 @@ router.post('/new', decodeToken, async (req, res) => {
       data: savedReserva
     })
   } catch (error) {
+    console.log("Esave",error)
     return res.status(400).json({ error })
   }
 })
