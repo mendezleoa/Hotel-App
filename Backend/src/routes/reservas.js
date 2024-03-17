@@ -2,44 +2,47 @@ const router = require('express').Router()
 const Reserva = require('../models/Reserva')
 const User = require('../models/User')
 
+const jwt = require('jsonwebtoken')
 /* Esquemas de Validación */
 const Joi = require('@hapi/joi').extend(require('@joi/date'))
 
 const schemaReserva = Joi.object({
-  roomid: Joi.string().min(3).max(255).required(),
-  userid: Joi.string().min(3).max(255).required(),
-  fechaentrada: Joi.date().format('YYYY-MM-DD').utc(),
-  fechasalida: Joi.date().format('YYYY-MM-DD').utc(),
-  totalimporte: Joi.number().required(),
-  totaldias: Joi.number().required(),
+  room: Joi.string().min(3).max(255).required(),
+  fechaInit: Joi.date().format('DD-MM-YYYY').utc(),
+  fechaSalida: Joi.date().format('DD-MM-YYYY').utc(),
+  totalimporte: Joi.number().required()
 })
 
+const decodeToken = (req, res, next) => {
+  const token = req.header('auth-token')
+  if (token) {
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+    req.user = decoded._id
+    next()
+  } else {
+    res.status(401).json({ message: 'Token no válido' })
+  }
+}
+
 /* Ruta nuevo */
-router.post('/new', async (req, res) => {
+router.post('/new', decodeToken, async (req, res) => {
   const { error } = schemaReserva.validate(req.body)
 
   if (error) {
     return res.status(400).json({ error: error.details[0].message })
   }
 
-  /* Comprobar que la habitación este disponible para registrar reservacion del hotel */
-  const isHabitacionExist = await Reserva.findOne({
-    room: req.body.room
-  })
-  if (isHabitacionExist) {
-    return res.status(400).json({ error: 'La habitacion está reservada' })
-  }
-
-  const idUser = await User.findOne({ username: req.body.user })
+  const idUser = await User.findOne({ _id: req.user })
   if (!idUser) {
     return res.status(400).json({ error: 'Datos de usuario no validos' })
   }
 
   const reservacion = new Reserva({
     room: req.body.room,
-    user: idUser._id,
-    fechaentrada: req.body.fechaentrada,
-    fechasalida: req.body.fechasalida
+    user: req.user,
+    fechaInit: req.body.fechaInit,
+    fechaSalida: req.body.fechaSalida,
+    totalimporte: req.body.totalimporte
   })
   try {
     const savedReserva = await reservacion.save()

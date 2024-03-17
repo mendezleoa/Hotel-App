@@ -41,9 +41,6 @@ const vpassword = (value) => {
 };
 
 const Register = (props) => {
-  const form = useRef();
-  const checkBtn = useRef();
-
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,33 +71,29 @@ const Register = (props) => {
     setMessage("");
     setSuccessful(false);
 
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password)
-        .then((response) => {
-          if (!response.error) {
-            navigate("/profile");
-          } else {
-            const resMessage = response.error;
-            error.message || error.toString();
-
-            setLoading(false);
-            setMessage(resMessage);
-          }
-        })
-        .catch((error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+    AuthService.register(username, email, password)
+      .then((response) => {
+        if (!response.error) {
+          navigate("/profile");
+        } else {
+          const resMessage = response.error;
+          error.message || error.toString();
 
           setLoading(false);
           setMessage(resMessage);
-        });
-    }
+        }
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setLoading(false);
+        setMessage(resMessage);
+      });
   };
   return (
     <div className="col-md-12">
@@ -111,7 +104,7 @@ const Register = (props) => {
           className="profile-img-card"
         />
 
-        <form onSubmit={handleRegister} ref={form}>
+        <form onSubmit={handleRegister}>
           {!successful && (
             <div>
               <div className="form-group">
@@ -122,7 +115,6 @@ const Register = (props) => {
                   name="username"
                   value={username}
                   onChange={onChangeUsername}
-                  validations={[required, vusername]}
                 />
               </div>
 
@@ -134,7 +126,6 @@ const Register = (props) => {
                   name="email"
                   value={email}
                   onChange={onChangeEmail}
-                  validations={[required, validEmail]}
                 />
               </div>
 
@@ -146,7 +137,6 @@ const Register = (props) => {
                   name="password"
                   value={password}
                   onChange={onChangePassword}
-                  validations={[required, vpassword]}
                 />
               </div>
 
@@ -170,7 +160,7 @@ const Register = (props) => {
               </div>
             </div>
           )}
-          <button style={{ display: "none" }} ref={checkBtn} />
+          <button style={{ display: "none" }} />
         </form>
         <Link to="/">
           <p className="text-sm pt-2">Volver a Home</p>

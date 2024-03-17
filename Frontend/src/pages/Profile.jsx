@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import RoomService from "../services/room.service";
 import AuthService from "../services/auth.service";
 import ReservationService from "../services/reserv.service";
 import Reservaciones from "../components/Reservaciones";
@@ -15,6 +16,11 @@ const Profile = () => {
       const datos = await AuthService.getUserData();
       setReservas(datos.reservaciones);
       setData(datos.user);
+      datos.reservaciones.forEach(async (reserva) => {
+        const room = await RoomService.getRoombyId(reserva.room);
+        console.log(room.room);
+        console.log(reserva);
+      });
       setLoading(false);
     };
 
@@ -58,13 +64,16 @@ const Profile = () => {
                       key={item._id}
                       className="p-4 rounded-xl shadow-lg bg-green-200 dark:bg-teal-900 my-2 text-sm grid grid-row-2"
                     >
-                      <span>
-                        Habitación: {item.habitacion}
-                        <br />
-                        Capacidad: {item.capacidad}
-                        <br />
+                      <p className="text-xl">Habitación: {item.room}</p>
+                      <p className="text-lg">
                         Fecha de entrada: {item.fechaInit}
-                      </span>
+                      </p>
+                      <p className="text-lg">
+                        Fecha de entrada: {item.fechaSalida}
+                      </p>
+                      <p className="text-base">
+                        Pago total: {item.totalimporte}
+                      </p>
                       <button
                         onClick={(e) => deleteRow(item._id, e)}
                         className="btn btn-danger py-2 px-3 mt-2"

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api/rooms'
+const API_URL = 'http://localhost:5000/api/rooms/'
 
 function getCookie (cname) {
   let name = cname + '='
@@ -23,8 +23,57 @@ const getRooms = async () => {
   })
 }
 
+const getRoombyId = async id => {
+  return await axios.get(API_URL + `${id}`).then(response => {
+    return response.data
+  })
+}
+
+const newRoom = async() => {
+  return await axios.post(
+    API_URL + 'new',
+    {
+      descripcion,
+      comodidades,
+      capacidad,
+      tarifas,
+      review,
+      imagenes,
+      evaluacion
+    },
+    {
+      headers: {
+        'auth-token': getCookie('jwt')
+      }
+    }
+  )
+}
+
+const deleteRoom = id => {
+  return axios
+    .delete(API_URL + `delete/${id}`, {
+      headers: {
+        'auth-token': getCookie('jwt')
+      }
+    })
+    .then(response => {
+      if (!response.error) {
+        return response.data
+      } else {
+        console.error(response.error)
+        return ''
+      }
+    })
+    .catch(error => {
+      console.error(error)
+    })
+}
+
 const RoomService = {
-  getRooms
+  getRooms,
+  getRoombyId,
+  newRoom,
+  deleteRoom
 }
 
 export default RoomService
