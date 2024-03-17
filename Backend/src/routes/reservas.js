@@ -6,10 +6,12 @@ const User = require('../models/User')
 const Joi = require('@hapi/joi').extend(require('@joi/date'))
 
 const schemaReserva = Joi.object({
-  room: Joi.string().min(3).max(255).required(),
-  user: Joi.string().min(3).max(255).required(),
-  fechaInit: Joi.date().format('YYYY-MM-DD').utc(),
-  fechaSalida: Joi.date().format('YYYY-MM-DD').utc()
+  roomid: Joi.string().min(3).max(255).required(),
+  userid: Joi.string().min(3).max(255).required(),
+  fechaentrada: Joi.date().format('YYYY-MM-DD').utc(),
+  fechasalida: Joi.date().format('YYYY-MM-DD').utc(),
+  totalimporte: Joi.number().required(),
+  totaldias: Joi.number().required(),
 })
 
 /* Ruta nuevo */
@@ -36,20 +38,20 @@ router.post('/new', async (req, res) => {
   const reservacion = new Reserva({
     room: req.body.room,
     user: idUser._id,
-    fechaInit: req.body.fechaInit,
-    fechaSalida: req.body.fechaSalida
+    fechaentrada: req.body.fechaentrada,
+    fechasalida: req.body.fechasalida
   })
   try {
     const savedReserva = await reservacion.save()
     idUser.reservas.push(savedReserva)
     await idUser.save()
 
-    res.json({
+    return res.json({
       error: null,
       data: savedReserva
     })
   } catch (error) {
-    res.status(400).json({ error })
+    return res.status(400).json({ error })
   }
 })
 

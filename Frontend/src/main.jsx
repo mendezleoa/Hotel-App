@@ -9,6 +9,7 @@ import AuthService from "./services/auth.service";
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
 import Rooms from "./pages/Rooms";
+import Reservaciones from "./pages/Reservaciones";
 import ReservationRoom from "./pages/ReservationRoom";
 import Testimonios from "./pages/Testimonios";
 import Layout from "./components/Layout";
@@ -38,7 +39,8 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="blogs" element={<Blogs />} />
           <Route path="rooms" element={<Rooms />} />
-          <Route path="rooms/:id" element={<ReservationRoom />} />
+          <Route path="reserva" element={<Reservaciones />} />
+          <Route path="reserva/:id/:datefrom/:dateto" element={<ReservationRoom />} />
           <Route path="testimonios" element={<Testimonios />} />
           <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NoPage />} />

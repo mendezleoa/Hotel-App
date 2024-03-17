@@ -5,14 +5,12 @@ import EventBus from "../common/EventBus";
 import AuthService from "../services/auth.service";
 
 const Layout = (auths) => {
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setCurrentUser(AuthService.getCurrentUser());
-    setShowModeratorBoard(auths.showModeratorBoard);
     setShowAdminBoard(auths.showAdminBoard);
 
     EventBus.on("logout", () => {
@@ -47,25 +45,19 @@ const Layout = (auths) => {
             <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/blogs">Blogs</Link>
             </li>
-            <li className="p-2 mx-3 flex place-items-center hover:text-blue-600">
+            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/testimonios">Testimonios</Link>
             </li>
-            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
-              <Link to="/rooms">Reservaciones</Link>
+            <li className="p-2 mx-3 flex place-items-center hover:text-blue-600">
+              <Link to="/reserva">Reservaciones</Link>
             </li>
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
+            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
+                <Link to="/rooms">Habitaciones</Link>
               </li>
-            )}
 
             {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
+              <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
+                <Link to="/rooms">Habitaciones</Link>
               </li>
             )}
           </ul>
