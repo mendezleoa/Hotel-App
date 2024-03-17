@@ -6,14 +6,16 @@ const Loader = () => {
   const [color, setColor] = useState("#000000");
 
   return (
-    <div>
-      <MoonLoader
-        color={color}
-        loading={loading}
-        size={80}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
+    <div className="w-full">
+      <div className="grid place-items-center">
+        <MoonLoader
+          color={color}
+          loading={loading}
+          size={80}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
     </div>
   );
 };

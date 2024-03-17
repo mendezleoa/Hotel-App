@@ -19,7 +19,6 @@ const Layout = (auths) => {
       logOut();
     });
 
-    
     return () => {
       setLoading(false);
       EventBus.remove("logout");
@@ -34,7 +33,7 @@ const Layout = (auths) => {
   };
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <nav className="m-2">
         <div className="mmx-auto max-w-screen flex flex-row flex-wrap rounded-lg shadow m-4 items-center justify-between dark:bg-gray-800 bg-gray-100 mx-auto p-2">
           <ul className="font-medium flex flex-wrap lg:text-lg text-sm">
@@ -114,7 +113,7 @@ const Layout = (auths) => {
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

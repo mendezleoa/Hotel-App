@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../components/Loader";
 
 function ReservationRoom() {
   const { id } = useParams();
@@ -56,6 +57,9 @@ function ReservationRoom() {
 
   return (
     <>
+       {loading ? (<Loader /> ) : error ? (<Error />) : (
+        data && 
+
       <section className="text-gray-600 body-font overflow-hidden">
         <button
           className="mx-12 font-extrabold text-red-600 text-3xl"
@@ -66,24 +70,6 @@ function ReservationRoom() {
         >
           Cerrar
         </button>
-        {loading ? (
-          <div className="flex justify-center items-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500">
-              Loading
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
-        {error ? (
-          <div className="flex justify-center items-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500">
-              Error al cargar los datos
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
         <div className="container px-5 py-12 mx-auto" key={data._id}>
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
             <img
@@ -236,6 +222,7 @@ function ReservationRoom() {
           </div>
         </div>
       </section>
+      )}
     </>
   );
 }
