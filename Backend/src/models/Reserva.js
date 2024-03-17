@@ -1,31 +1,23 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const reservaSchema = mongoose.Schema({
-<<<<<<< HEAD
-  room: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  capacidad: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 10
+const reservaSchema = mongoose.Schema(
+  {
+    //room: { type: Schema.Types.ObjectId, ref: 'Room', required: true },
+    //user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    room: { type: String, required: true },
+    roomid: { type: String, required: true },
+    userid: { type: String, required: true },
+    fechaentrada: { type: String, required: true },
+    fechasalida: { type: String, required: true },
+    totaldias: { type: Number, required: true },
+    totalimporte: { type: Number, required: true },
+    transactionid: { type: String, required: true },
+    status: { type: String, required: true, default: 'Reservado' }
   },
-=======
-  room: { type: Schema.Types.ObjectId, ref: 'Room', required: true },
->>>>>>> Production
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  fechaInit: {
-    type: Date,
-    required: true
-  },
-  fechaSalida: {
-    type: Date,
-    required: true
-  },
-  date: {
-    type: Date,
-    default: Date.now
+  {
+    timestamps: true
   }
-})
+)
 
 module.exports = mongoose.model('Reserva', reservaSchema)

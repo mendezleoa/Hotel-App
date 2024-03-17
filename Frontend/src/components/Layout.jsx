@@ -5,21 +5,18 @@ import EventBus from "../common/EventBus";
 import AuthService from "../services/auth.service";
 
 const Layout = (auths) => {
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setCurrentUser(AuthService.getCurrentUser());
-    setShowModeratorBoard(auths.showModeratorBoard);
     setShowAdminBoard(auths.showAdminBoard);
 
     EventBus.on("logout", () => {
       logOut();
     });
 
-    
     return () => {
       setLoading(false);
       EventBus.remove("logout");
@@ -34,7 +31,7 @@ const Layout = (auths) => {
   };
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <nav className="m-2">
         <div className="mmx-auto max-w-screen flex flex-row flex-wrap rounded-lg shadow m-4 items-center justify-between dark:bg-gray-800 bg-gray-100 mx-auto p-2">
           <ul className="font-medium flex flex-wrap lg:text-lg text-sm">
@@ -48,25 +45,19 @@ const Layout = (auths) => {
             <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/blogs">Blogs</Link>
             </li>
-            <li className="p-2 mx-3 flex place-items-center hover:text-blue-600">
+            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/testimonios">Testimonios</Link>
             </li>
-            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
-              <Link to="/rooms">Habitaciones</Link>
+            <li className="p-2 mx-3 flex place-items-center hover:text-blue-600">
+              <Link to="/reserva">Reservaciones</Link>
             </li>
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
+            <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
+                <Link to="/rooms">Habitaciones</Link>
               </li>
-            )}
 
             {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
+              <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
+                <Link to="/rooms">Habitaciones</Link>
               </li>
             )}
           </ul>
@@ -114,7 +105,7 @@ const Layout = (auths) => {
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

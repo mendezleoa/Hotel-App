@@ -5,13 +5,14 @@ import { DatePicker, Space } from "antd";
 import moment from "moment";
 
 import RoomService from "../services/room.service";
+import ReservationService from "../services/reserv.service";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
-import Stars from "../components/Stars";
+import Stars from "../components/Stars"
 
 const { RangePicker } = DatePicker;
 
-const Rooms = () => {
+const Reservaciones = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -30,7 +31,7 @@ const Rooms = () => {
       setLoading(true);
       setError(false);
       try {
-        const response = await RoomService.getRooms();
+        const response = await RoomService.getRooms()
         setData(response.rooms);
         setDatosFiltrados(response.rooms);
         const allTipos = response.rooms.map((room) => room.type);
@@ -100,6 +101,28 @@ const Rooms = () => {
   return (
     <>
       <section className="text-gray-600 dark:text-slate-200 overflow-hidden">
+        <div>
+          <input
+            type="text"
+            value={filtroNombre}
+            onChange={handleNombreChange}
+            className="m-3 py-1.5 px-3 border border-gray-900 rounded-md text-slate-800"
+            placeholder="Filtrar por nombre"
+          />
+          <select
+            value={filtroTipo}
+            onChange={handleTipoChange}
+            className="m-3 py-1.5 px-3 border border-gray-900 rounded-md text-slate-800"
+          >
+            <option value="">Todos los tipos</option>
+            {tipos.map((tipo) => (
+              <option key={tipo} value={tipo}>
+                {tipo}
+              </option>
+            ))}
+          </select>
+          <RangePicker onChange={filterByDate} />
+        </div>
         {loading ? (
           <Loader />
         ) : error ? (
@@ -122,7 +145,7 @@ const Rooms = () => {
                   </h1>
                   <div className="flex mb-4">
                     <span className="flex items-center">
-                      <Stars stars={item.evaluacion} />
+                      <Stars stars={item.evaluacion}/>
                       <span className="text-gray-600 dark:text-gray-200 ml-3">
                         {item.review.length} Reviews
                       </span>
@@ -143,14 +166,11 @@ const Rooms = () => {
                         {item.capacidad}
                       </h2>
                     </div>
-                    <div className="flex ml-6 items-center">
-                      <span className="mr-3">Tarifa: </span>
-                      <h2 className="text-gray-900 dark:text-slate-300 text-2xl title-font font-medium mb-1">
-                        ${item.tarifa}
-                      </h2>
-                    </div>
                   </div>
                   <div className="flex">
+                    <span className="title-font font-medium text-2xl text-gray-900 dark:text-slate-300">
+                      ${item.tarifa}
+                    </span>
                     <button
                       className="flex ml-auto text-white bg-[#0D6EFD] border-0 py-2 px-6 focus:outline-none hover:bg-[#0DCAF0] rounded"
                       onClick={(e) => {
@@ -158,16 +178,7 @@ const Rooms = () => {
                         handleClick(item._id);
                       }}
                     >
-                      Modificar
-                    </button>
-                    <button
-                      className="flex ml-auto text-white bg-[#ce3d3d] border-0 py-2 px-6 focus:outline-none hover:bg-[#0DCAF0] rounded"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClick(item._id);
-                      }}
-                    >
-                      Eliminar
+                      Reservar
                     </button>
                   </div>
                 </div>
@@ -180,4 +191,4 @@ const Rooms = () => {
   );
 };
 
-export default Rooms;
+export default Reservaciones;
