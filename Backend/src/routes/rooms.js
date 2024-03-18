@@ -5,14 +5,13 @@ const Room = require('../models/Room')
 const Joi = require('@hapi/joi').extend(require('@joi/date'))
 
 const schemaRoom = Joi.object({
+  name: Joi.string().min(5).max(255).required(),
   descripcion: Joi.string().min(5).max(255).required(),
-  comodidades: Joi.string().min(5).max(255).required(),
+  type: Joi.string().min(3).max(255).required(),
   capacidad: Joi.number().min(1).max(10).required(),
-  tarifas: Joi.number().min(1).max(10).required(),
-  review: Joi.string().min(3).max(255).required(),
-  fechaInit: Joi.date().format('YYYY-MM-DD').utc().required(),
-  imagenes: Joi.string().uri().allow(''),
-  evaluacion: Joi.number().min(1).max(5).required()
+  tarifas: Joi.number().min(1).max(255).required(),
+  evaluacion: Joi.number().min(1).max(10).required(),
+  comodidades: Joi.string().min(5).max(255).required()
 })
 
 router.get('/', async (req, res) => {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 
 import RoomService from "../services/room.service";
 import AuthService from "../services/auth.service";
@@ -65,18 +66,18 @@ const Profile = () => {
                       className="p-4 rounded-xl shadow-lg bg-green-200 dark:bg-teal-900 my-2 text-sm grid grid-row-2"
                     >
                       <p className="text-lg">
-                        Fecha de Entrada: {item.fechaInit}
+                        Fecha de Entrada: {item.fechaInit.substring(0,10)}
                       </p>
                       <p className="text-lg">
-                        Fecha de Salida: {item.fechaSalida}
+                        Fecha de Salida: {item.fechaSalida.substring(0,10)}
                       </p>
                       <p className="text-base">
-                        Pago total: {" " + item.totalimporte}Bs.
+                        Pago total: ${item.totalimporte}
                       </p>
                       <p className="text-xl mt-3">Habitación:</p>
                       <p className="text-lg">Nombre: {item.room.name}</p>
                       <p className="text-lg mb-3">
-                        Habitación: {item.room.name}
+                        Habitación: {item.room.type}
                       </p>
                       <button
                         onClick={(e) => deleteRow(item._id, e)}
