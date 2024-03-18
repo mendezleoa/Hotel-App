@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const Room = require('../models/Room')
+const User = require('../models/User')
 
+const jwt = require('jsonwebtoken')
 /* Esquemas de Validación */
 const Joi = require('@hapi/joi').extend(require('@joi/date'))
 
@@ -14,6 +16,17 @@ const schemaRoom = Joi.object({
   comodidades: Joi.string().min(5).max(255).required()
 })
 
+const decodeToken = (req, res, next) => {
+  const token = req.header('auth-token')
+  if (token) {
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+    req.user = decoded._id
+    next()
+  } else {
+    res.status(401).json({ message: 'Token no válido' })
+  }
+}
+
 router.get('/', async (req, res) => {
   try {
     const rooms = await Room.find()
@@ -25,7 +38,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const room = await Room.findOne({_id: req.params.id})
+    const room = await Room.findOne({ _id: req.params.id })
     return res.json({ room })
   } catch (error) {
     return res.status(400).json({ message: error })
@@ -33,20 +46,30 @@ router.get('/:id', async (req, res) => {
 })
 
 /* Ruta nuevo */
-router.post('/new', async (req, res) => {
+router.post('/new', decodeToken, async (req, res) => {
   const { error } = schemaRoom.validate(req.body)
+
+  const userAdmin = await User.findOne({ _id: req.user })
+  if (!userAdmin.rol) {
+    return res.status(400).json({ error: 'El usuario no es admin' })
+  }
 
   if (error) {
     return res.status(400).json({ error: error.details[0].message })
   }
 
+  const existRoom = await Room.findOne({ _id: req.params.id })
+  if (existRoom) {
+    return res.status(400).json({ error: 'Ya existe esta Habitación' })
+  }
+
   const room = new Room({
+    name: req.body.name,
     descripcion: req.body.descripcion,
     comodidades: req.body.comodidades,
     capacidad: req.body.capacidad,
     tarifas: req.body.tarifas,
     review: req.body.review,
-    imagenes: req.body.imagenes,
     evaluacion: req.body.evaluacion
   })
 

@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import RoomService from "../services/room.service";
 
 const RoomForm = ({ setShowModal }) => {
   const {
@@ -13,8 +14,8 @@ const RoomForm = ({ setShowModal }) => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    await RoomService.newRoom(data);
   };
 
   return (
@@ -126,8 +127,8 @@ const RoomForm = ({ setShowModal }) => {
                 <span className="my-1">Tipo</span>
                 <div className="relative">
                   <select
-                    id="tipo"
-                    {...register("tipo", { required: true })}
+                    id="type"
+                    {...register("type", { required: true })}
                     className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10"
                   >
                     <option>Delux</option>
@@ -182,11 +183,11 @@ const RoomForm = ({ setShowModal }) => {
                     <p>El campo Descripción es Requerido</p>
                   )}
                 </div>
-                <div className="relative">
+                <div className="relative mt-2">
                   <input
+                    className="bg-emerald-500 text-gray-100 hover:text-gray-800 hover:bg-emerald-500   active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
                     type="submit"
                     value="Enviar"
-                    className="bg-emerald-500 text-gray-100 hover:text-gray-800 hover:bg-emerald-500   active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
                   />
                   <button
                     className="text-red-500 active:bg-emerald-600 font-bold uppercase px-6 py-3 text-sm ml-2 mb-1  rounded shadow hover:shadow-lg outline-none focus:outline-none hover:text-gray-800 hover:bg-red-500 ease-linear transition-all duration-150"

@@ -23,7 +23,10 @@ const roomSchema = mongoose.Schema(
       type: Number,
       required: true
     },
-    tarifa: {
+    type: {
+      type: String
+    },
+    tarifas: {
       type: Number,
       required: true
     },
@@ -34,7 +37,6 @@ const roomSchema = mongoose.Schema(
       min: 1,
       max: 10
     },
-    reserva: { type: Schema.Types.ObjectId, ref: 'Reserva', required: true },
     imagenes: [],
     currentBooking: []
   },

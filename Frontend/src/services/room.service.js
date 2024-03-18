@@ -29,17 +29,35 @@ const getRoombyId = async id => {
   })
 }
 
-const newRoom = async() => {
+const newRoom = async data => {
+  let {
+    name,
+    descripcion,
+    comodidades,
+    capacidad,
+    tarifas,
+    review,
+    imagenes,
+    evaluacion,
+    type
+  } = data
+  tarifas = parseInt(tarifas)
+  capacidad = parseInt(capacidad)
+  evaluacion = parseInt(evaluacion)
+
+  console.log(imagenes)
   return await axios.post(
     API_URL + 'new',
     {
+      name,
       descripcion,
       comodidades,
       capacidad,
       tarifas,
       review,
       imagenes,
-      evaluacion
+      evaluacion,
+      type
     },
     {
       headers: {

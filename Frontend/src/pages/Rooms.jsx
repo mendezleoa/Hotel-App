@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { DatePicker, Space } from "antd";
-import moment from "moment";
 
 import RoomService from "../services/room.service";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
-import Stars from "../components/Stars";
 import Modal from "../components/Modal";
-
-const { RangePicker } = DatePicker;
 
 const Rooms = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [edit, setEdit] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
