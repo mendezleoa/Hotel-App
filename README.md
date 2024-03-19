@@ -30,15 +30,27 @@ Luego de ingresar de manera exitosa en el login podremos navegar inmediatamente 
 
 ### Reservaciones
 
-En la pantalla principal o tambien conocida como 'Home' podemos ingresar a las mismas opciones para ingresar reservaciones, pero sin ver las reservaciones creadas anteriormente. Adicionalmente se puede visualizar un mensaje que nos pide iniciar sesión o registrarnos en caso de querer ingresar datos de reservación.
+Se selecciona entre las distintas opciones de fechas de reservación de habitaciones ademas de poder filtrar por capacidad y tipo, y genera una vista previa.
+
+### Habitaciones
+
+Los administradores puedes agregar o eliminar habitaciones que existan en el catálogo.
+
+### Blogs
+
+Los usuarios pueden compartir su experiencia en el hotel dejando mensajes y contribuyendo al ambiente.
+
+### Modos y temas
+
+Se puede elegir entre dos modos de vistas para que el usuario pueda adaptar su expreriencia dentro de la página.
 
 ### API de Terceros
 
-Se utilizo la api de [Meteoblue](www.meteoblue.com), que contiene acceso a variables climaticas de la zona como temperatura o humedad, con limitaciones en cuanto a usos diarios de la api.
+Se utilizo la api de [OpenWeather](https://openweathermap.org/), que contiene acceso a variables climaticas de la zona como temperatura o humedad, con limitaciones en cuanto a usos diarios de la api.
 
-- **Meteoblue**:
+- **OpenWeather**:
   - **Método**: `GET`
-  - **Descripción**: Obtiene datos meteorológicos de la página.
+  - **Descripción**: Obtiene datos meteorológicos de la zona deseada para la página.
   - `fetch("URL_API")
    .then((response) => response.json())
    .then((weather) => {
@@ -83,9 +95,10 @@ Bienvenido al **Hotel Bocconnó**, ubicado en la hermosa ciudad de **Boconó, Es
 - Video sobre el funcionamiento de la entrega 1 subido a Youtube [aquí](https://youtu.be/cdXbuu-CaZg).
 - Video sobre las mejoras realizadas para la entrega 2 subido a Youtube [aquí](https://youtu.be/W8fC9WuSKSc?si=QDquNOL_qRyfwc-E).
 
-- Documento subido a Google Docs [aquí](https://docs.google.com/document/d/18yxmySBJ6--czVwXGvbc6zVarCeDIE3RWMBcIASoKHA/edit?usp=sharing).
+- Documento primera entrega subido a Google Docs [aquí](https://docs.google.com/document/d/18yxmySBJ6--czVwXGvbc6zVarCeDIE3RWMBcIASoKHA/edit?usp=sharing).
+- Documento segunda entrega subido a Google Docs [aquí](https://docs.google.com/document/d/18yxmySBJ6--czVwXGvbc6zVarCeDIE3RWMBcIASoKHA/edit?usp=sharing).
 
-- Figma del proyecto [aquí](https://www.figma.com/file/4UHY4bMtvonXM2dUfA7iDd/Hotel-APP?type=design&node-id=0%3A1&mode=design&t=3e3lSyw5j7P79nYI-1).
+- Figma del proyecto [aquí](https://www.figma.com/file/4UHY4bMtvonXM2dUfA7iDd/Hotel-APP?type=design&mode=design&t=4JZxLbbd2quqDDdR-1).
 
 ## Autor
 
