@@ -4,17 +4,20 @@ import Footer from "./Footer";
 import EventBus from "../common/EventBus";
 import AuthService from "../services/auth.service";
 
-const Layout = (auths) => {
+const Layout = () => {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       setCurrentUser(await AuthService.getCurrentUser());
       const userData = await AuthService.getUserData();
-      setShowAdminBoard(userData.user.rol);
+      if (userData) {
+        setShowAdminBoard(userData.user.rol);
+      }
       setLoading(false);
     };
 
@@ -23,18 +26,29 @@ const Layout = (auths) => {
     });
 
     fetchData();
-    return () => {
-      setLoading(false);
-      EventBus.remove("logout");
-    };
   }, []);
 
-  const logOut = () => {
-    AuthService.logout();
-    setShowModeratorBoard(false);
+  const logOut = async () => {
+    await AuthService.logout();
     setShowAdminBoard(false);
     setCurrentUser(undefined);
   };
+
+  function toggleDarkMode() {
+    setTheme(theme === "light" ? "dark" : "light");
+    const root = document.querySelector("body"); // Puedes usar 'body' en lugar de 'html' si prefieres
+    root.classList.toggle("dark-mode");
+  }
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.querySelector("html")?.classList.add("dark");
+      document.querySelector("html")?.classList.remove("light");
+    } else {
+      document.querySelector("html")?.classList.remove("dark");
+      document.querySelector("html")?.classList.add("light");
+    }
+  }, [theme]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -68,6 +82,17 @@ const Layout = (auths) => {
             <span className="text-xl text-slate-50">Loading...</span>
           ) : (
             <>
+              <label className="inline-flex ml-3 items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  onChange={toggleDarkMode}
+                  className="sr-only peer"
+                />
+                <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Modo oscuro
+                </span>
+              </label>
               {currentUser ? (
                 <div className="flex flex-row justify-middle ml-auto">
                   <li className="m-1">
@@ -75,25 +100,21 @@ const Layout = (auths) => {
                       {"Usuario: " + currentUser}
                     </Link>
                   </li>
-                  <li className="btn btn-outline-primary my-0.5 mr-3 md:mr-6 ">
-                    <a
-                      href="/login"
-                      className="px-0 py-0"
-                      onClick={logOut}
-                    >
+                  <li className="bg-blue-500 hover:bg-blue-700 text-gray-100 font-bold py-2 px-4 rounded ease-linear transition-all duration-150 z-10 my-0.5 mr-3 md:mr-6 ">
+                    <a href="/login" className="px-0 py-0" onClick={logOut}>
                       LogOut
                     </a>
                   </li>
                 </div>
               ) : (
                 <div className="flex flex-row ml-auto">
-                  <li className="btn btn-outline-primary m-1">
+                  <li className="bg-blue-500 hover:bg-blue-700 text-gray-100 font-bold py-2 px-4 rounded ease-linear transition-all duration-150 z-10 m-1">
                     <Link to={"/login"} className="px-0 py-1">
                       Login
                     </Link>
                   </li>
 
-                  <li className="btn btn-outline-primary m-1">
+                  <li className="bg-blue-500 hover:bg-blue-700 text-gray-100 font-bold py-2 px-4 rounded ease-linear transition-all duration-150 z-10 m-1">
                     <Link to={"/register"} className="px-0 py-1">
                       Sign Up
                     </Link>
