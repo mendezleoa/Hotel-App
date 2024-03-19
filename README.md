@@ -81,6 +81,7 @@ Bienvenido al **Hotel Bocconnó**, ubicado en la hermosa ciudad de **Boconó, Es
 ## Documentación
 
 - Video sobre el funcionamiento de la entrega 1 subido a Youtube [aquí](https://youtu.be/cdXbuu-CaZg).
+- Video sobre las mejoras realizadas para la entrega 2 subido a Youtube [aquí](https://youtu.be/W8fC9WuSKSc?si=QDquNOL_qRyfwc-E).
 
 - Documento subido a Google Docs [aquí](https://docs.google.com/document/d/18yxmySBJ6--czVwXGvbc6zVarCeDIE3RWMBcIASoKHA/edit?usp=sharing).
 
