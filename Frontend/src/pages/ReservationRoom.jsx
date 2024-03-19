@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 
+import RoomService from "../services/room.service";
+import ReservationService from "../services/reserv.service";
 import Loader from "../components/Loader";
 
 function ReservationRoom() {
@@ -23,22 +25,27 @@ function ReservationRoom() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
-    setError(false);
-    axios
-      .get(`http://localhost:5000/api/rooms/${id}`)
-      .then((res) => {
-        setData(res.data.room);
-        setTotalImporte(totalDays * res.data.room.tarifa);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las habitaciones:", error);
+    const fetchData = async () => {
+      setLoading(true);
+      setError(false);
+      try {
+        const response = await RoomService.getRoombyId(id);
+        setData(response.room);
+        setTotalImporte(totalDays * response.room.tarifa);
+      } catch (error) {
+        console.error(
+          "Error al obtener la información de la habitación:",
+          error
+        );
         setError(error);
-      });
-    setLoading(false);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
-  const handleAddRecord = () => {
+  const handleAddRecord = async () => {
     axios
       .post("http://localhost:5000/api/rooms", { title: newData })
       .then((res) => {
@@ -68,15 +75,18 @@ function ReservationRoom() {
   const reservaRoom = async () => {
     const reservaDetalle = {
       room: data,
-      fechaentrada: datefrom,
-      fechasalida: dateto,
+      fechaInit: datefrom,
+      fechaSalida: dateto,
       totalimporte: totalImporte,
       totaldays: totalDays,
     };
 
     try {
-      const result = await axios.post("", reservaDetalle);
-    } catch (error) {}
+      await ReservationService.newReservation(reservaDetalle);
+      navigate("/profile")
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -123,7 +133,9 @@ function ReservationRoom() {
                   </div>
                   <div className="flex border-t border-gray-200 py-2">
                     <span className="text-gray-500">Precio por Noche</span>
-                    <span className="ml-auto text-gray-900">${data.tarifa}</span>
+                    <span className="ml-auto text-gray-900">
+                      ${data.tarifa}
+                    </span>
                   </div>
                   <div className="flex border-t border-b mb-6 border-gray-200 py-2">
                     <span className="text-gray-500">Cantidad de Noches</span>
@@ -142,9 +154,9 @@ function ReservationRoom() {
                   </div>
                 </div>
                 <img
-                  alt="ecommerce"
+                   alt="imgroom"
                   className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-                  src="https://dummyimage.com/400x400"
+                  src={data.imagenes}
                 />
               </div>
             </div>

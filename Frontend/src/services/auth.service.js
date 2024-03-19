@@ -60,6 +60,8 @@ const login = async (username, password) => {
 
 const logout = () => {
   localStorage.removeItem('user')
+  let removing = browser.cookies.remove('jwt')
+  removing.then(onRemoved, onError)
   return axios.post(API_URL + 'signout').then(response => {
     return response.data
   })
@@ -70,9 +72,14 @@ const getCurrentUser = () => {
 }
 
 const getUserData = async () => {
+  const token = getCookie('jwt')
+  if (!token) {
+    return false
+  }
+
   const config = {
     headers: {
-      'auth-token': getCookie('jwt')
+      'auth-token': token
     }
   }
   return axios.get(API_URL + 'get/', config).then(response => {

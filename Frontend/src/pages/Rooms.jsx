@@ -1,29 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { DatePicker, Space } from "antd";
-import moment from "moment";
 
 import RoomService from "../services/room.service";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
-import Stars from "../components/Stars";
-
-const { RangePicker } = DatePicker;
+import Modal from "../components/Modal";
 
 const Rooms = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [filtroNombre, setFiltroNombre] = useState("");
-  const [filtroTipo, setFiltroTipo] = useState("");
-  const [newRegistro, setNewRegistro] = useState("");
-  const [datosFiltrados, setDatosFiltrados] = useState([]);
-  const [tipos, setTipos] = useState([]);
-  const [dateFrom, setDateFrom] = useState();
-  const [dateTo, setDateTo] = useState();
-
-  const navigate = useNavigate();
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,10 +18,6 @@ const Rooms = () => {
       try {
         const response = await RoomService.getRooms();
         setData(response.rooms);
-        setDatosFiltrados(response.rooms);
-        const allTipos = response.rooms.map((room) => room.type);
-        const uniqueTipos = [...new Set(allTipos)];
-        setTipos(uniqueTipos);
       } catch (error) {
         console.error("Error al obtener las habitaciones:", error);
         setError(error);
@@ -46,136 +28,95 @@ const Rooms = () => {
     fetchData();
   }, []);
 
-  const handleAddRoom = () => {
-    axios
-      .post("http://localhost:5000/api/rooms", { title: newData })
-      .then((res) => {
-        setData([...data, res.data.rooms]);
-        setNewRegistro("");
-      })
-      .catch((error) => {
-        console.error("Error al agregar el blog:", error);
-      });
-  };
-
-  const handleDeleteRoom = (id) => {
-    axios
-      .delete(`http://localhost:5000/api/rooms/${id}`)
-      .then(() => {
-        setData(data.filter((room) => room.id !== id));
-      })
-      .catch((error) => {
-        console.error("Error al eliminar la habitación:", error);
-      });
-  };
-
-  const handleClick = (id) => {
-    navigate(`/reserva/${id}/${dateFrom}/${dateTo}`);
-  };
-
-  const handleFilter = (filtroNombre, filtroTipo) => {
-    const filtered = data.filter(
-      (room) =>
-        room.name.toLowerCase().includes(filtroNombre.toLowerCase()) &&
-        (filtroTipo === "" || room.type === filtroTipo)
-    );
-    setDatosFiltrados(filtered);
-  };
-
-  const handleNombreChange = (e) => {
-    setFiltroNombre(e.target.value);
-    handleFilter(e.target.value, filtroTipo);
-  };
-
-  const handleTipoChange = (e) => {
-    setFiltroTipo(e.target.value);
-    handleFilter(filtroNombre, e.target.value);
-  };
-
-  const filterByDate = (dates) => {
-    setDateFrom(moment(dates[0].$d).format("DD-MM-YYYY"));
-    setDateTo(moment(dates[1].$d).format("DD-MM-YYYY"));
+  const handleEdit = (e) => {
+    if (edit) {
+      setEdit(false);
+    } else {
+      setEdit(true);
+    }
   };
 
   return (
     <>
-      <section className="text-gray-600 dark:text-slate-200 overflow-hidden">
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <Error />
-        ) : (
-          datosFiltrados?.map((item) => (
-            <div className="container px-5 py-4 mx-auto" key={item._id}>
-              <div className="lg:w-4/5 mx-auto flex flex-wrap">
-                <img
-                  alt="ecommerce"
-                  className="lg:w-1/3 w-full lg:h-auto h-64 object-cover object-center rounded"
-                  src="https://dummyimage.com/400x400"
-                />
-                <div className="lg:w-2/3 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                  <h2 className="text-sm title-font text-gray-500 dark:text-gray-300 tracking-widest">
-                    Habitación:
-                  </h2>
-                  <h1 className="text-gray-900 dark:text-slate-100 text-3xl title-font font-semibold mb-1">
-                    {item.name}
-                  </h1>
-                  <div className="flex mb-4">
-                    <span className="flex items-center">
-                      <Stars stars={item.evaluacion} />
-                      <span className="text-gray-600 dark:text-gray-200 ml-3">
-                        {item.review.length} Reviews
-                      </span>
-                    </span>
-                  </div>
-                  <p className="leading-relaxed">{item.comodidades}</p>
-                  <p className="leading-relaxed">{item.descripcion}</p>
-                  <div className="flex mt-6 items-center pb-2 border-b-2 border-gray-300 mb-3">
-                    <div className="flex">
-                      <span className="mr-3">Tipo: </span>
-                      <h2 className="text-gray-900 dark:text-slate-300 text-2xl title-font font-medium mb-1">
-                        {item.type}
-                      </h2>
-                    </div>
-                    <div className="flex ml-6 items-center">
-                      <span className="mr-3">Capacidad Máxima: </span>
-                      <h2 className="text-gray-900 dark:text-slate-300 text-2xl title-font font-medium mb-1">
-                        {item.capacidad}
-                      </h2>
-                    </div>
-                    <div className="flex ml-6 items-center">
-                      <span className="mr-3">Tarifa: </span>
-                      <h2 className="text-gray-900 dark:text-slate-300 text-2xl title-font font-medium mb-1">
-                        ${item.tarifa}
-                      </h2>
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <button
-                      className="flex ml-auto text-white bg-[#0D6EFD] border-0 py-2 px-6 focus:outline-none hover:bg-[#0DCAF0] rounded"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClick(item._id);
-                      }}
-                    >
-                      Modificar
-                    </button>
-                    <button
-                      className="flex ml-auto text-white bg-[#ce3d3d] border-0 py-2 px-6 focus:outline-none hover:bg-[#0DCAF0] rounded"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClick(item._id);
-                      }}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Error />
+      ) : (
+        data && (
+          <>
+            <Modal />
+            <section className="text-gray-600 body-font overflow-hidden px-6">
+              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" className="px-2 sm:px-6 py-3">
+                        Nombre
+                      </th>
+                      <th scope="col" className="px-2 sm:px-6 py-3">
+                        Tipo
+                      </th>
+                      <th scope="col" className="px-2 sm:px-6 py-3">
+                        Comodidades
+                      </th>
+                      <th scope="col" className="px-2 sm:px-6 py-3">
+                        Tarifa
+                      </th>
+                      <th scope="col" className="px-2 sm:px-6 py-3">
+                        Acción
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data?.map((item) => (
+                      <tr
+                        className="bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 text-xs lg:text-sm"
+                        key={item._id}
+                      >
+                        <th
+                          scope="row"
+                          className="px-2 sm:px-6 py-3 font-medium text-slate-700 whitespace-nowrap dark:text-gray-100"
+                        >
+                          {item.name}
+                        </th>
+                        <td className="px-2 sm:px-6 py-3">{item.type}</td>
+                        <td className="px-2 sm:px-6 py-3">
+                          {item.descripcion}
+                        </td>
+                        <td className="px-2 sm:px-6 py-3">{item.tarifa}</td>
+                        <td className="px-2 sm:px-6 py-3">
+                          <button
+                            href="#"
+                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleEdit(item._id);
+                            }}
+                          >
+                            Editar
+                          </button>
+                          <> </>
+                          <button
+                            href="#"
+                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleEdit(item._id);
+                            }}
+                          >
+                            Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </div>
-          ))
-        )}
-      </section>
+            </section>
+          </>
+        )
+      )}
     </>
   );
 };

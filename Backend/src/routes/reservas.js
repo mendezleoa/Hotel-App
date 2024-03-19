@@ -1,48 +1,67 @@
 const router = require('express').Router()
+const moment = require('moment'); 
+
 const Reserva = require('../models/Reserva')
 const User = require('../models/User')
+const Room = require('../models/Room')
 
+const jwt = require('jsonwebtoken')
 /* Esquemas de Validación */
 const Joi = require('@hapi/joi').extend(require('@joi/date'))
 
 const schemaReserva = Joi.object({
-  roomid: Joi.string().min(3).max(255).required(),
-  userid: Joi.string().min(3).max(255).required(),
-  fechaentrada: Joi.date().format('YYYY-MM-DD').utc(),
-  fechasalida: Joi.date().format('YYYY-MM-DD').utc(),
-  totalimporte: Joi.number().required(),
-  totaldias: Joi.number().required(),
+  fechaInit: Joi.date().format('DD-MM-YYYY').utc(),
+  fechaSalida: Joi.date().format('DD-MM-YYYY').utc(),
+  totalimporte: Joi.number().required()
 })
 
-/* Ruta nuevo */
-router.post('/new', async (req, res) => {
-  const { error } = schemaReserva.validate(req.body)
+const decodeToken = (req, res, next) => {
+  const token = req.header('auth-token')
+  if (token) {
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+    req.user = decoded._id
+    next()
+  } else {
+    res.status(401).json({ message: 'Token no válido' })
+  }
+}
 
+/* Ruta nuevo */
+router.post('/new', decodeToken, async (req, res) => {
+
+  console.log("Entro",req.body.fechaSalida);
+  //const { error } = schemaReserva.validate(req.body)
+
+  error = null
   if (error) {
     return res.status(400).json({ error: error.details[0].message })
   }
 
-  /* Comprobar que la habitación este disponible para registrar reservacion del hotel */
-  const isHabitacionExist = await Reserva.findOne({
-    room: req.body.room
-  })
-  if (isHabitacionExist) {
-    return res.status(400).json({ error: 'La habitacion está reservada' })
+  const fechaInitISO = moment(req.body.fechaInit,"DD-MM-YYYY")
+  const fechaSalidaISO = moment(req.body.fechaSalida,"DD-MM-YYYY")
+    
+  const idUser = await User.findById(req.user)
+  const idRoom = await Room.findById(req.body.room)
+  /*
+  
+  if (!idUser || !idRoom) {
+    return res
+      .status(400)
+      .json({ error: 'Datos de usuario o habitación no válidos' })
   }
-
-  const idUser = await User.findOne({ username: req.body.user })
-  if (!idUser) {
-    return res.status(400).json({ error: 'Datos de usuario no validos' })
-  }
-
+*/
   const reservacion = new Reserva({
-    room: req.body.room,
-    user: idUser._id,
-    fechaentrada: req.body.fechaentrada,
-    fechasalida: req.body.fechasalida
+    room: idRoom,
+    user: idUser,
+    fechaInit: fechaInitISO,
+    fechaSalida: fechaSalidaISO,
+    totalimporte: req.body.totalimporte
   })
+  console.log("Salio");
+  console.log("reservacionRutas",reservacion)
   try {
     const savedReserva = await reservacion.save()
+    console.log("save",savedReserva)
     idUser.reservas.push(savedReserva)
     await idUser.save()
 
@@ -51,6 +70,7 @@ router.post('/new', async (req, res) => {
       data: savedReserva
     })
   } catch (error) {
+    console.log("Esave",error)
     return res.status(400).json({ error })
   }
 })

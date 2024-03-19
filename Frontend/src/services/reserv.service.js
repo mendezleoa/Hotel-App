@@ -17,21 +17,29 @@ function getCookie (cname) {
   return ''
 }
 
-const newReservation = (
-  habitacion,
-  capacidad,
-  user,
-  fechaInit,
-  fechaSalida
-) => {
-  return axios.post(
+const getReservabyId = async id => {
+  return await axios.get(API_URL + id).then(response => {
+    return response.data
+  })
+}
+
+const getReservas = async () => {
+  return await axios.get(API_URL).then(response => {
+    return response.data
+  })
+}
+
+const newReservation = async reservaDetalle => {
+  const room = reservaDetalle.room._id
+  const { fechaInit, fechaSalida, totalimporte } = reservaDetalle
+  console.log("newReserService",reservaDetalle)
+  return await axios.post(
     API_URL + 'new',
     {
-      room: habitacion,
-      capacidad,
-      user,
+      room,
       fechaInit,
-      fechaSalida
+      fechaSalida,
+      totalimporte
     },
     {
       headers: {
@@ -62,6 +70,7 @@ const deleteReservation = id => {
 }
 
 const ReservationService = {
+  getReservabyId,
   newReservation,
   deleteReservation
 }
