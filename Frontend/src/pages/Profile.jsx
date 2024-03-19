@@ -43,9 +43,9 @@ const Profile = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container mx-4">
       {!loading ? (
-        <div className="mt-24">
+        <div className="mt-24 mx-3 w-full flex flex-col justify-center">
           <h3 className="font-bold text-xl">
             Nombre de usuario: {data.username}
           </h3>
@@ -78,7 +78,7 @@ const Profile = () => {
                       </p>
                       <button
                         onClick={(e) => deleteRow(item._id, e)}
-                        className="btn btn-danger py-2 px-3 mt-2"
+                        className="bg-red-600 hover:bg-red-500 text-gray-100 font-bold rounded ease-linear transition-all duration-150 py-2 px-3 mt-2"
                       >
                         Eliminar Reserva
                       </button>

@@ -65,9 +65,11 @@ const Layout = () => {
             <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/blogs">Blogs</Link>
             </li>
+            {/*
             <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/testimonios">Testimonios</Link>
             </li>
+            */}
             <li className="p-2 ml-3 flex place-items-center hover:text-blue-600">
               <Link to="/reserva">Reservaciones</Link>
             </li>

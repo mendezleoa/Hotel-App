@@ -29,7 +29,6 @@ export default function App() {
             path="reserva/:id/:datefrom/:dateto"
             element={<ReservationRoom />}
           />
-          <Route path="testimonios" element={<Testimonios />} />
           <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NoPage />} />
         </Route>
