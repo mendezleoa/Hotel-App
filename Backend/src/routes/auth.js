@@ -120,9 +120,9 @@ router.get('/get', async (req, res) => {
     res.json({
       error: null,
       user: {
-        id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        rol: user.rol
       },
       reservaciones
     })

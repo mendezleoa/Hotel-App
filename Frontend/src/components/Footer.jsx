@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="rounded-lg shadow m-4 dark:bg-gray-800 bg-gray-100">
+    <footer className="mt-auto rounded-lg shadow m-4 dark:bg-gray-800 bg-gray-100">
       <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
         <span className="text-sm text-gray-500 sm:text-center karma-regular dark:text-gray-400">
           © 2024 Hotel Bocconno™ . Todos los derechos reservados.

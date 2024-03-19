@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api/reservaciones/'
+const API_URL = 'http://localhost:5000/api/rooms/'
 
 function getCookie (cname) {
   let name = cname + '='
@@ -17,29 +17,44 @@ function getCookie (cname) {
   return ''
 }
 
-const getReservabyId = async id => {
-  return await axios.get(API_URL + id).then(response => {
-    return response.data
-  })
-}
-
-const getReservas = async () => {
+const getRooms = async () => {
   return await axios.get(API_URL).then(response => {
     return response.data
   })
 }
 
-const newReservation = async reservaDetalle => {
-  const room = reservaDetalle.room._id
-  const { fechaInit, fechaSalida, totalimporte } = reservaDetalle
-  console.log("newReserService",reservaDetalle)
+const getRoombyId = async id => {
+  return await axios.get(API_URL + `${id}`).then(response => {
+    return response.data
+  })
+}
+
+const newRoom = async data => {
+  let {
+    name,
+    descripcion,
+    comodidades,
+    capacidad,
+    tarifas,
+    review,
+    evaluacion,
+    type
+  } = data
+  tarifas = parseInt(tarifas)
+  capacidad = parseInt(capacidad)
+  evaluacion = parseInt(evaluacion)
+
   return await axios.post(
     API_URL + 'new',
     {
-      room,
-      fechaInit,
-      fechaSalida,
-      totalimporte
+      name,
+      descripcion,
+      comodidades,
+      capacidad,
+      tarifas,
+      review,
+      evaluacion,
+      type
     },
     {
       headers: {
@@ -49,8 +64,8 @@ const newReservation = async reservaDetalle => {
   )
 }
 
-const deleteReservation = id => {
-  return axios
+const deleteRoom = async id => {
+  return await axios
     .delete(API_URL + `delete/${id}`, {
       headers: {
         'auth-token': getCookie('jwt')
@@ -69,10 +84,11 @@ const deleteReservation = id => {
     })
 }
 
-const ReservationService = {
-  getReservabyId,
-  newReservation,
-  deleteReservation
+const RoomService = {
+  getRooms,
+  getRoombyId,
+  newRoom,
+  deleteRoom
 }
 
-export default ReservationService
+export default RoomService

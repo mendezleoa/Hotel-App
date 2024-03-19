@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Reservaciones from "../components/Reservaciones";
 import { Link } from "react-router-dom";
 
 import AuthService from "../services/auth.service";
@@ -49,10 +48,10 @@ function Home() {
                 supera todas las expectativas.
               </p>
               <Link
-                to="/testimonios"
-                className="mt-6 mx-auto lg:mx-0  mb-2 btn btn-primary px-3 py-2 z-10"
+                to="/blogs"
+                className="mt-6 mx-auto lg:mx-0  mb-2 bg-blue-500 hover:bg-blue-700 text-gray-100 font-bold py-2 px-4 rounded ease-linear transition-all duration-150 z-10"
               >
-                Testimonios
+                Blogs
               </Link>
             </div>
 
@@ -162,10 +161,12 @@ function Home() {
         <section className="container">
           <div className="text-center">
             <h3 className="text-slate-900 dark:text-gray-100 text-3xl font-bold">
-              Ingresa tu reservacion aquí:
+              Ingresa tu reservacion aquí:{" "}
             </h3>
+            <button className="my-4 bg-blue-500 hover:bg-blue-700 text-gray-100 font-bold py-2 px-4 rounded ease-linear transition-all duration-150">
+              <Link to={"/reserva"}>Reservas</Link>
+            </button>
           </div>
-          <Reservaciones />
         </section>
       ) : (
         <section className="container">
