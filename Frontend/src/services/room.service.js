@@ -37,7 +37,6 @@ const newRoom = async data => {
     capacidad,
     tarifas,
     review,
-    imagenes,
     evaluacion,
     type
   } = data
@@ -45,7 +44,6 @@ const newRoom = async data => {
   capacidad = parseInt(capacidad)
   evaluacion = parseInt(evaluacion)
 
-  console.log(imagenes)
   return await axios.post(
     API_URL + 'new',
     {
@@ -55,7 +53,6 @@ const newRoom = async data => {
       capacidad,
       tarifas,
       review,
-      imagenes,
       evaluacion,
       type
     },
@@ -67,8 +64,8 @@ const newRoom = async data => {
   )
 }
 
-const deleteRoom = id => {
-  return axios
+const deleteRoom = async id => {
+  return await axios
     .delete(API_URL + `delete/${id}`, {
       headers: {
         'auth-token': getCookie('jwt')

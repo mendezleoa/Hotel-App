@@ -20,27 +20,28 @@ import Profile from "./pages/Profile";
 import "./main.css";
 
 export default function App() {
-  const [role, setRole] = useState(false);
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [theme, setTheme] = useState(null);
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-      // setRole(user.roles.includes("ROLE_ADMIN"));
-    }
+    localStorage.getItem('theme')
   }, []);
+
+  const handleTheme = () => {
+    setTheme();
+  };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout auths={[role, currentUser]} />}>
+        <Route path="/" element={<Layout themeToggle={[theme, handleTheme]} />}>
           <Route index element={<Home />} />
           <Route path="blogs" element={<Blogs />} />
           <Route path="rooms" element={<Rooms />} />
           <Route path="reserva" element={<Reservaciones />} />
-          <Route path="reserva/:id/:datefrom/:dateto" element={<ReservationRoom />} />
+          <Route
+            path="reserva/:id/:datefrom/:dateto"
+            element={<ReservationRoom />}
+          />
           <Route path="testimonios" element={<Testimonios />} />
           <Route path="profile" element={<Profile />} />
           <Route path="*" element={<NoPage />} />

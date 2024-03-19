@@ -5,7 +5,6 @@ import { DatePicker, Space } from "antd";
 import moment from "moment";
 
 import RoomService from "../services/room.service";
-import ReservationService from "../services/reserv.service";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
 import Stars from "../components/Stars"
@@ -16,9 +15,8 @@ const Reservaciones = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [filtroNombre, setFiltroNombre] = useState("");
+  const [filtroCapacidad, setFiltroCapacidad] = useState("");
   const [filtroTipo, setFiltroTipo] = useState("");
-  const [newRegistro, setNewRegistro] = useState("");
   const [datosFiltrados, setDatosFiltrados] = useState([]);
   const [tipos, setTipos] = useState([]);
   const [dateFrom, setDateFrom] = useState();
@@ -47,50 +45,27 @@ const Reservaciones = () => {
     fetchData();
   }, []);
 
-  const handleAddRoom = () => {
-    axios
-      .post("http://localhost:5000/api/rooms", { title: newData })
-      .then((res) => {
-        setData([...data, res.data.rooms]);
-        setNewRegistro("");
-      })
-      .catch((error) => {
-        console.error("Error al agregar el blog:", error);
-      });
-  };
-
-  const handleDeleteRoom = (id) => {
-    axios
-      .delete(`http://localhost:5000/api/rooms/${id}`)
-      .then(() => {
-        setData(data.filter((room) => room.id !== id));
-      })
-      .catch((error) => {
-        console.error("Error al eliminar la habitación:", error);
-      });
-  };
-
   const handleClick = (id) => {
     navigate(`/reserva/${id}/${dateFrom}/${dateTo}`);
   };
 
-  const handleFilter = (filtroNombre, filtroTipo) => {
+  const handleFilter = (filtroCapacidad, filtroTipo) => {
     const filtered = data.filter(
       (room) =>
-        room.name.toLowerCase().includes(filtroNombre.toLowerCase()) &&
+        parseInt(room.capacidad)===parseInt(filtroCapacidad) &&
         (filtroTipo === "" || room.type === filtroTipo)
     );
     setDatosFiltrados(filtered);
   };
 
-  const handleNombreChange = (e) => {
-    setFiltroNombre(e.target.value);
+  const handleCapacidadChange = (e) => {
+    setFiltroCapacidad(e.target.value);
     handleFilter(e.target.value, filtroTipo);
   };
 
   const handleTipoChange = (e) => {
     setFiltroTipo(e.target.value);
-    handleFilter(filtroNombre, e.target.value);
+    handleFilter(filtroCapacidad, e.target.value);
   };
 
   const filterByDate = (dates) => {
@@ -103,11 +78,13 @@ const Reservaciones = () => {
       <section className="text-gray-600 dark:text-slate-200 overflow-hidden">
         <div>
           <input
-            type="text"
-            value={filtroNombre}
-            onChange={handleNombreChange}
-            className="m-3 py-1.5 px-3 border border-gray-900 rounded-md text-slate-800"
-            placeholder="Filtrar por nombre"
+            type="number"
+            min={1}
+            max={10}
+            value={filtroCapacidad}
+            onChange={handleCapacidadChange}
+            className="m-3 py-1.5 px-3 border border-gray-900 rounded-md text-slate-800 w-1/6"
+            placeholder="Filtrar por Capacidad"
           />
           <select
             value={filtroTipo}
@@ -132,11 +109,11 @@ const Reservaciones = () => {
             <div className="container px-5 py-4 mx-auto" key={item._id}>
               <div className="lg:w-4/5 mx-auto flex flex-wrap">
                 <img
-                  alt="ecommerce"
-                  className="lg:w-1/3 w-full lg:h-auto h-64 object-cover object-center rounded"
-                  src="https://dummyimage.com/400x400"
+                  alt="imgroom"
+                  className="lg:w-4/12 w-full lg:h-auto h-64 object-cover object-center rounded"
+                  src={item.imagenes}
                 />
-                <div className="lg:w-2/3 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+                <div className="lg:w-8/12 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                   <h2 className="text-sm title-font text-gray-500 dark:text-gray-300 tracking-widest">
                     Habitación:
                   </h2>

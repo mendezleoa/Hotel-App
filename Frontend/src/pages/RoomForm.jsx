@@ -123,6 +123,24 @@ const RoomForm = ({ setShowModal }) => {
                   )}
                 </div>
               </div>
+              <div className="p-2">
+                <div className="relative">
+                  <label
+                    htmlFor="imagen"
+                    className="leading-7 text-sm text-gray-600"
+                  >
+                    Tarifas
+                  </label>
+                  <input
+                    type="file"
+                    id="imgFile"
+                    filename="imgFile"
+                    name="imgFile"
+                    accept="image/*"
+                    className="w-full"
+                  />
+                </div>
+              </div>
               <div className="flex flex-col place-content-start ml-2">
                 <span className="my-1">Tipo</span>
                 <div className="relative">

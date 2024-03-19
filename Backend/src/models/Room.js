@@ -37,7 +37,10 @@ const roomSchema = mongoose.Schema(
       min: 1,
       max: 10
     },
-    imagenes: [],
+    imagen: {
+      data: Buffer,
+      contentType: String
+    },
     currentBooking: []
   },
   {

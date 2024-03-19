@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 
 import RoomService from "../services/room.service";
 import AuthService from "../services/auth.service";
 import ReservationService from "../services/reserv.service";
-import Reservaciones from "../components/Reservaciones";
 
 const Profile = () => {
   const [data, setData] = useState(undefined);
@@ -51,7 +49,6 @@ const Profile = () => {
           <h3 className="font-bold text-xl">
             Nombre de usuario: {data.username}
           </h3>
-          <p className="font-bold text-xl">Id: {data.id}</p>
           <p className="font-bold text-xl">Email: {data.email}</p>
           {/*
           <p className="font-bold text-xl">Rol: {data.rol}</p> */}
@@ -63,7 +60,7 @@ const Profile = () => {
                   {reservas.map((item) => (
                     <li
                       key={item._id}
-                      className="p-4 rounded-xl shadow-lg bg-green-200 dark:bg-teal-900 my-2 text-sm grid grid-row-2"
+                      className="p-4 rounded-xl shadow-lg bg-green-200 dark:bg-teal-900 my-2 text-sm grid grid-row-2 mb-4"
                     >
                       <p className="text-lg">
                         Fecha de Entrada: {item.fechaInit.substring(0,10)}
@@ -95,14 +92,6 @@ const Profile = () => {
               </div>
             )}
           </div>
-          <section className="container mt-20 mb-28">
-            <div className="text-center">
-              <h3 className="text-slate-900 dark:text-gray-100 text-3xl font-bold">
-                Ingresa tu Reservación aquí:
-              </h3>
-            </div>
-            <Reservaciones />
-          </section>
         </div>
       ) : (
         <div>

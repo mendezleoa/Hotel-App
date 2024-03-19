@@ -2,6 +2,8 @@ const router = require('express').Router()
 const Room = require('../models/Room')
 const User = require('../models/User')
 
+const multer = require('multer')
+
 const jwt = require('jsonwebtoken')
 /* Esquemas de Validación */
 const Joi = require('@hapi/joi').extend(require('@joi/date'))
@@ -15,6 +17,18 @@ const schemaRoom = Joi.object({
   evaluacion: Joi.number().min(1).max(10).required(),
   comodidades: Joi.string().min(5).max(255).required()
 })
+
+/* Almacenado de imagen */
+const Storage = multer.diskStorage({
+  destination: 'uploads',
+  filename: (req, file, cb) => {
+    cb(null, Date.now + '-' + file.originalname)
+  }
+})
+
+const upload = multer({
+  storage: Storage
+}).single('imgFile')
 
 const decodeToken = (req, res, next) => {
   const token = req.header('auth-token')
@@ -53,12 +67,11 @@ router.post('/new', decodeToken, async (req, res) => {
   if (!userAdmin.rol) {
     return res.status(400).json({ error: 'El usuario no es admin' })
   }
-
   if (error) {
     return res.status(400).json({ error: error.details[0].message })
   }
 
-  const existRoom = await Room.findOne({ _id: req.params.id })
+  const existRoom = await Room.findOne({ name: req.body.name })
   if (existRoom) {
     return res.status(400).json({ error: 'Ya existe esta Habitación' })
   }
@@ -70,17 +83,21 @@ router.post('/new', decodeToken, async (req, res) => {
     capacidad: req.body.capacidad,
     tarifas: req.body.tarifas,
     review: req.body.review,
-    evaluacion: req.body.evaluacion
+    evaluacion: req.body.evaluacion,
+    imagen: {
+      data: req.file.filename,
+      contentType: 'image/jpg'
+    }
   })
 
   try {
     const savedRoom = await room.save()
-    res.json({
+    return res.json({
       error: null,
       data: savedRoom
     })
   } catch (error) {
-    res.status(400).json({ error })
+    return res.status(400).json({ error })
   }
 })
 

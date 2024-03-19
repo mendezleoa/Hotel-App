@@ -154,9 +154,9 @@ function ReservationRoom() {
                   </div>
                 </div>
                 <img
-                  alt="ecommerce"
+                   alt="imgroom"
                   className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-                  src="https://dummyimage.com/400x400"
+                  src={data.imagenes}
                 />
               </div>
             </div>

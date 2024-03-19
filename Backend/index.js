@@ -24,10 +24,12 @@ const verifyToken = require('./src/middlewares/validate-token')
 const authRoutes = require('./src/routes/auth.js')
 const reservasRoutes = require('./src/routes/reservas')
 const roomsRoutes = require('./src/routes/rooms')
+const blogsRoutes = require('./src/routes/blogs')
 
 app.use('/api/auth', authRoutes)
 app.use('/api/reservaciones', verifyToken, reservasRoutes)
 app.use('/api/rooms', roomsRoutes)
+app.use('/api/blogs', blogsRoutes)
 
 const URI = `mongodb+srv://${process.env.USER}:${process.env.PASS}@farmacia.dbkfd9e.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
 mongoose
