@@ -96,7 +96,7 @@ Bienvenido al **Hotel Bocconnó**, ubicado en la hermosa ciudad de **Boconó, Es
 - Video sobre las mejoras realizadas para la entrega 2 subido a Youtube [aquí](https://youtu.be/W8fC9WuSKSc?si=QDquNOL_qRyfwc-E).
 
 - Documento primera entrega subido a Google Docs [aquí](https://docs.google.com/document/d/18yxmySBJ6--czVwXGvbc6zVarCeDIE3RWMBcIASoKHA/edit?usp=sharing).
-- Documento segunda entrega subido a Google Docs [aquí](https://docs.google.com/document/d/18yxmySBJ6--czVwXGvbc6zVarCeDIE3RWMBcIASoKHA/edit?usp=sharing).
+- Documento segunda entrega subido a Google Docs [aquí](https://docs.google.com/document/d/1yNaGjGiJKpDW8q3ttpT8jjqQs1OMcO3JL8oeqYdWBxs/edit?usp=sharing).
 
 - Figma del proyecto [aquí](https://www.figma.com/file/4UHY4bMtvonXM2dUfA7iDd/Hotel-APP?type=design&mode=design&t=4JZxLbbd2quqDDdR-1).
 
